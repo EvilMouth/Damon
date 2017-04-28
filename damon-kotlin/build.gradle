@@ -46,5 +46,6 @@ dependencies {
 
     //rxlifecycle
     compile "com.trello.rxlifecycle2:rxlifecycle:$rxlifecycle_version"
+    compile "com.trello.rxlifecycle2:rxlifecycle-android:$rxlifecycle_version"
     compile "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxlifecycle_version"
 }

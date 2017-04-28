@@ -41,23 +41,17 @@ open class MvpPresenter<out V : MvpView> : MvpPresenterHelper, LifecycleProvider
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    override fun onCreate(arguments: Bundle?, savedState: Bundle?) {
-    }
+    override fun onCreate(arguments: Bundle?, savedState: Bundle?) = Unit
 
-    override fun onStart() {
-    }
+    override fun onStart() = Unit
 
-    override fun onSave(state: Bundle) {
-    }
+    override fun onSave(state: Bundle) = Unit
 
-    override fun onResume() {
-    }
+    override fun onResume() = Unit
 
-    override fun onPause() {
-    }
+    override fun onPause() = Unit
 
-    override fun onStop() {
-    }
+    override fun onStop() = Unit
 
     @CallSuper
     override fun onDestroy() {

@@ -27,7 +27,7 @@ class PresenterLifecycleDelegate<out P : MvpPresenter<MvpView>>(val mPresenterFa
             ParcelFn.unmarshall(ParcelFn.marshall(it))
         }
         createPresenter(presenterBundle)
-        mPresenter?.create(view, arguments, savedState)
+        mPresenter?.create(view, arguments, presenterBundle?.getBundle(PRESENTER_KEY))
     }
 
     fun createPresenter(presenterBundle: Bundle?) {
