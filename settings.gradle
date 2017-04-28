@@ -1,1 +1,1 @@
-include ':damon'
+include ':damon', ':damon-kotlin'
