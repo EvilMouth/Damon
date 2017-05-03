@@ -21,6 +21,7 @@ dependencies {
 }
 
 ext {
+    bintrayOrg = 'zyhang'
     bintrayRepo = 'maven'
     bintrayName = 'damon'
 
@@ -43,5 +44,5 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-apply from:'https://cdn.rawgit.com/Jude95/JCenter/master/install.gradle'
-apply from:'https://cdn.rawgit.com/Jude95/JCenter/master/bintray.gradle'
+apply from:'../gradle/install.gradle'
+apply from:'../gradle/bintray.gradle'
