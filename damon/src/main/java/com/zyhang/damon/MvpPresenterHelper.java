@@ -1,6 +1,7 @@
 package com.zyhang.damon;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,7 @@ interface MvpPresenterHelper {
     /**
      * called when {@link Activity#onCreate(Bundle)},{@link Fragment#onCreate(Bundle)}
      *
-     * @param arguments  {@link Activity#getIntent().getExtras()},{@link Fragment#getArguments()}
+     * @param arguments  {@link Activity#getIntent()},{@link Intent#getExtras()},{@link Fragment#getArguments()}
      * @param savedState If the presenter is being re-instantiated after a process restart then this Bundle
      *                   contains the data it supplied in {@link #onSave}.
      */
@@ -38,7 +39,6 @@ interface MvpPresenterHelper {
 
     /**
      * called when {@link Activity#onResume()},{@link Fragment#onResume()}
-     *
      */
     void onResume();
 
