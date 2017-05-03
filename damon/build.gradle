@@ -21,7 +21,6 @@ dependencies {
 }
 
 ext {
-    bintrayOrg = 'zyhang'
     bintrayRepo = 'maven'
     bintrayName = 'damon'
 
