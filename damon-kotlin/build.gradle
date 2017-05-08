@@ -45,3 +45,29 @@ dependencies {
     compile "com.trello.rxlifecycle2:rxlifecycle-android:$rxlifecycle_version"
     compile "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxlifecycle_version"
 }
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'damon-kotlin'
+
+    publishedGroupId = 'com.zyhang'
+    artifact = 'damon-kotlin'
+
+    siteUrl = 'https://github.com/yuhangjiayou/Damon'
+    gitUrl = 'https://github.com/yuhangjiayou/Damon.git'
+
+    libraryVersion = '1.0.1'
+    libraryName = 'Damon-Kotlin'
+    libraryDescription = 'a android mvp framework based on rxjava rxlifecycle'
+
+    developerId = 'zyhang'
+    developerName = 'zyhang'
+    developerEmail = 'zyhang4502@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from:'../gradle/install.gradle'
+apply from:'../gradle/bintray.gradle'

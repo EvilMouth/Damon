@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/yuhangjiayou/Damon'
     gitUrl = 'https://github.com/yuhangjiayou/Damon.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
     libraryName = 'Damon'
     libraryDescription = 'a android mvp framework based on rxjava rxlifecycle'
 
