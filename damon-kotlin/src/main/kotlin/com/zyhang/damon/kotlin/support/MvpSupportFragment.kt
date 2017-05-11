@@ -25,7 +25,7 @@ open class MvpSupportFragment<out P : MvpPresenter<MvpView>> : Fragment(), ViewW
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenterDelegate.OnCreate(this, arguments, savedInstanceState?.getBundle(PRESENTER_STATE_KEY))
+        mPresenterDelegate.onCreate(this, arguments, savedInstanceState?.getBundle(PRESENTER_STATE_KEY))
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

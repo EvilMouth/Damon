@@ -22,23 +22,23 @@ class PresenterLifecycleDelegate<out P : MvpPresenter<MvpView>>(val mPresenterFa
 
     fun presenter(): P? = mPresenter
 
-    fun OnCreate(view: MvpView, arguments: Bundle?, savedState: Bundle?) {
-        val presenterBundle: Bundle? = savedState?.let {
-            ParcelFn.unmarshall(ParcelFn.marshall(it))
+    fun onCreate(view: MvpView, arguments: Bundle?, savedState: Bundle?) {
+        mPresenterFactory?.let {
+            val presenterBundle: Bundle? = savedState?.let {
+                ParcelFn.unmarshall(ParcelFn.marshall(it))
+            }
+            createPresenter(presenterBundle)
+            mPresenter?.create(view, arguments, presenterBundle?.getBundle(PRESENTER_KEY))
         }
-        createPresenter(presenterBundle)
-        mPresenter?.create(view, arguments, presenterBundle?.getBundle(PRESENTER_KEY))
     }
 
-    fun createPresenter(presenterBundle: Bundle?) {
-        mPresenterFactory?.let {
-            presenterBundle?.let {
-                mPresenter = PresenterStorage.INSTANCE.getPresenter(it.getString(PRESENTER_ID_KEY))
-            }
-            if (mPresenter == null) {
-                mPresenter = it.createPresenter()
-                PresenterStorage.INSTANCE.add(mPresenter as MvpPresenter<MvpView>)
-            }
+    private fun createPresenter(presenterBundle: Bundle?) {
+        presenterBundle?.let {
+            mPresenter = PresenterStorage.INSTANCE.getPresenter(it.getString(PRESENTER_ID_KEY))
+        }
+        if (mPresenter == null) {
+            mPresenter = mPresenterFactory!!.createPresenter()
+            PresenterStorage.INSTANCE.add(mPresenter as MvpPresenter<MvpView>)
         }
     }
 

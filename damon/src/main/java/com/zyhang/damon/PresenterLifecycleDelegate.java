@@ -34,6 +34,7 @@ public class PresenterLifecycleDelegate<Presenter extends MvpPresenter> {
     }
 
     public void onCreate(MvpView view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
+        if (mPresenterFactory == null) return;
         Bundle presenterBundle = null;
         if (savedState != null) {
             presenterBundle = ParcelFn.unmarshall(ParcelFn.marshall(savedState));
@@ -46,10 +47,10 @@ public class PresenterLifecycleDelegate<Presenter extends MvpPresenter> {
     }
 
     private void createPresenter(Bundle presenterBundle) {
-        if (mPresenterFactory == null) return;
         if (presenterBundle != null) {
             mPresenter = PresenterStorage.INSTANCE.getPresenter(presenterBundle.getString(PRESENTER_ID_KEY));
         } else {
+            //noinspection ConstantConditions
             mPresenter = mPresenterFactory.createPresenter();
             PresenterStorage.INSTANCE.add(mPresenter);
         }

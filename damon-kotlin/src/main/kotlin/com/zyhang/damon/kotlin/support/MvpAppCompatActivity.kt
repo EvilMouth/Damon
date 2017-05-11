@@ -25,7 +25,7 @@ open class MvpAppCompatActivity<out P : MvpPresenter<MvpView>> : AppCompatActivi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenterDelegate.OnCreate(this, intent.extras, savedInstanceState?.getBundle(PRESENTER_STATE_KEY))
+        mPresenterDelegate.onCreate(this, intent.extras, savedInstanceState?.getBundle(PRESENTER_STATE_KEY))
     }
 
     override fun onStart() {

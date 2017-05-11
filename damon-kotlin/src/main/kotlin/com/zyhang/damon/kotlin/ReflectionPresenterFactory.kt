@@ -15,11 +15,11 @@ import kotlin.reflect.full.findAnnotation
 
 class ReflectionPresenterFactory<out P : MvpPresenter<MvpView>> private constructor(val presenterClass: KClass<out P>?) : PresenterFactory<P> {
     companion object {
-        fun <P : MvpPresenter<MvpView>> fromViewClass(cls: KClass<*>): ReflectionPresenterFactory<P> {
+        fun <P : MvpPresenter<MvpView>> fromViewClass(cls: KClass<*>): ReflectionPresenterFactory<P>? {
             val annotation = cls.findAnnotation<RequiresPresenter>()
             @Suppress("UNCHECKED_CAST")
-            val pClass: KClass<P>? = annotation?.cls as KClass<P>
-            return ReflectionPresenterFactory(pClass)
+            val pClass: KClass<P>? = annotation?.cls as KClass<P>?
+            return if (null == pClass) null else ReflectionPresenterFactory(pClass)
         }
     }
 
