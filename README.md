@@ -7,10 +7,10 @@ a android mvp framework based on rxjava rxlifecycle
 
 ## Installation
 ```
-compile 'com.zyhang:damon:1.0.1'
+compile 'com.zyhang:damon:1.0.3'
 
 // written by kotlin
-compile 'com.zyhang:damon-kotlin:1.0.1'
+compile 'com.zyhang:damon-kotlin:1.0.3'
 ```
 ## Thanks
 [konmik/nucleus](https://github.com/konmik/nucleus/tree/rx2)

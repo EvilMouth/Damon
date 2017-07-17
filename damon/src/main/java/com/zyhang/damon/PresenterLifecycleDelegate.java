@@ -49,7 +49,9 @@ public class PresenterLifecycleDelegate<Presenter extends MvpPresenter> {
     private void createPresenter(Bundle presenterBundle) {
         if (presenterBundle != null) {
             mPresenter = PresenterStorage.INSTANCE.getPresenter(presenterBundle.getString(PRESENTER_ID_KEY));
-        } else {
+        }
+
+        if (mPresenter == null) {
             //noinspection ConstantConditions
             mPresenter = mPresenterFactory.createPresenter();
             PresenterStorage.INSTANCE.add(mPresenter);

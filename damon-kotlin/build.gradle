@@ -56,7 +56,7 @@ ext {
     siteUrl = 'https://github.com/yuhangjiayou/Damon'
     gitUrl = 'https://github.com/yuhangjiayou/Damon.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.0.3'
     libraryName = 'Damon-Kotlin'
     libraryDescription = 'a android mvp framework based on rxjava rxlifecycle'
 

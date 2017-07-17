@@ -36,7 +36,8 @@ class PresenterLifecycleDelegate<out P : MvpPresenter<MvpView>>(val mPresenterFa
         presenterBundle?.let {
             mPresenter = PresenterStorage.INSTANCE.getPresenter(it.getString(PRESENTER_ID_KEY))
         }
-        if (mPresenter == null) {
+
+        mPresenter ?: let {
             mPresenter = mPresenterFactory!!.createPresenter()
             PresenterStorage.INSTANCE.add(mPresenter as MvpPresenter<MvpView>)
         }
