@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
@@ -14,8 +15,6 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.annotation.Nonnull;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
@@ -181,19 +180,19 @@ public class MvpPresenter<View extends MvpView> implements MvpPresenterHelper, L
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Nonnull
+    @NonNull
     @Override
     public Observable<ActivityEvent> lifecycle() {
         return mLifecycleSubject.hide();
     }
 
-    @Nonnull
+    @NonNull
     @Override
-    public <T> LifecycleTransformer<T> bindUntilEvent(@Nonnull ActivityEvent event) {
+    public <T> LifecycleTransformer<T> bindUntilEvent(@NonNull ActivityEvent event) {
         return RxLifecycle.bindUntilEvent(mLifecycleSubject, event);
     }
 
-    @Nonnull
+    @NonNull
     @Override
     public <T> LifecycleTransformer<T> bindToLifecycle() {
         return RxLifecycleAndroid.bindActivity(mLifecycleSubject);

@@ -1,18 +1,18 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile "com.android.support:appcompat-v7:$support_version"
     //rxjava
     compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
     //rxlifecycle
@@ -30,18 +30,18 @@ ext {
     siteUrl = 'https://github.com/yuhangjiayou/Damon'
     gitUrl = 'https://github.com/yuhangjiayou/Damon.git'
 
-    libraryVersion = '1.0.3'
+    libraryVersion = damon_version
     libraryName = 'Damon'
     libraryDescription = 'a android mvp framework based on rxjava rxlifecycle'
 
     developerId = 'zyhang'
     developerName = 'zyhang'
-    developerEmail = 'zyhang4502@gmail.com'
+    developerEmail = 'izyhang@gmail.com'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
 }
 
-apply from:'../gradle/install.gradle'
-apply from:'../gradle/bintray.gradle'
+apply from: '../gradle/install.gradle'
+apply from: '../gradle/bintray.gradle'
