@@ -16,7 +16,7 @@ import com.zyhang.damon.kotlin.*
 open class MvpSupportFragment<out P : MvpPresenter<MvpView>> : Fragment(), ViewWithPresenter<P>, MvpView {
 
     private val PRESENTER_STATE_KEY = "presenter_state"
-    val mPresenterDelegate: PresenterLifecycleDelegate<P> =
+    private val mPresenterDelegate: PresenterLifecycleDelegate<P> =
             PresenterLifecycleDelegate(ReflectionPresenterFactory.Companion.fromViewClass(javaClass.kotlin))
 
     override fun getPresenter(): P? {
@@ -28,9 +28,9 @@ open class MvpSupportFragment<out P : MvpPresenter<MvpView>> : Fragment(), ViewW
         mPresenterDelegate.onCreate(this, arguments, savedInstanceState?.getBundle(PRESENTER_STATE_KEY))
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.onSaveInstanceState())
+        outState.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.onSaveInstanceState())
     }
 
     override fun onStart() {
@@ -54,7 +54,7 @@ open class MvpSupportFragment<out P : MvpPresenter<MvpView>> : Fragment(), ViewW
     }
 
     override fun onDestroy() {
-        mPresenterDelegate.onDestroy(!activity.isChangingConfigurations)
+        mPresenterDelegate.onDestroy(!activity!!.isChangingConfigurations)
         super.onDestroy()
     }
 }

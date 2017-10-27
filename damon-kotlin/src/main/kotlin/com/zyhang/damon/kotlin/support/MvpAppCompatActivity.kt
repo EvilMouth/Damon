@@ -16,7 +16,7 @@ import com.zyhang.damon.kotlin.*
 open class MvpAppCompatActivity<out P : MvpPresenter<MvpView>> : AppCompatActivity(), ViewWithPresenter<P>, MvpView {
 
     private val PRESENTER_STATE_KEY = "presenter_state"
-    val mPresenterDelegate: PresenterLifecycleDelegate<P> =
+    private val mPresenterDelegate: PresenterLifecycleDelegate<P> =
             PresenterLifecycleDelegate(ReflectionPresenterFactory.Companion.fromViewClass(javaClass.kotlin))
 
     override fun getPresenter(): P? {

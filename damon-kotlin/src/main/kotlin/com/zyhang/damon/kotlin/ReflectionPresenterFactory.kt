@@ -13,7 +13,7 @@ import kotlin.reflect.full.findAnnotation
  * Modify remark:
  */
 
-class ReflectionPresenterFactory<out P : MvpPresenter<MvpView>> private constructor(val presenterClass: KClass<out P>?) : PresenterFactory<P> {
+class ReflectionPresenterFactory<out P : MvpPresenter<MvpView>> private constructor(private val presenterClass: KClass<out P>?) : PresenterFactory<P> {
     companion object {
         fun <P : MvpPresenter<MvpView>> fromViewClass(cls: KClass<*>): ReflectionPresenterFactory<P>? {
             val annotation = cls.findAnnotation<RequiresPresenter>()

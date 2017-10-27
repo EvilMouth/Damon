@@ -1,6 +1,7 @@
 package com.zyhang.damon.support;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
@@ -37,7 +38,7 @@ public class MvpSupportFragment<Presenter extends MvpPresenter> extends Fragment
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.onSaveInstanceState());
     }

@@ -12,7 +12,7 @@ import android.os.Parcel
  */
 
 internal object ParcelFn {
-    val CLASS_LOADER: ClassLoader = ParcelFn::class.java.classLoader
+    private val CLASS_LOADER: ClassLoader = ParcelFn::class.java.classLoader
 
     fun <T> unmarshall(array: ByteArray): T {
         val parcel = Parcel.obtain()

@@ -16,23 +16,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:$support_version"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api "com.android.support:appcompat-v7:$support_version"
 
     //kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     //rxjava
-    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    api "io.reactivex.rxjava2:rxjava:$rxjava_version"
 
     //rxkotlin
-    compile "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
+    api "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
 
     //rxlifecycle
-    compile "com.trello.rxlifecycle2:rxlifecycle:$rxlifecycle_version"
-    compile "com.trello.rxlifecycle2:rxlifecycle-android:$rxlifecycle_version"
-    compile "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxlifecycle_version"
+    api "com.trello.rxlifecycle2:rxlifecycle:$rxlifecycle_version"
+    api "com.trello.rxlifecycle2:rxlifecycle-android:$rxlifecycle_version"
+    api "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxlifecycle_version"
 }
 
 ext {
