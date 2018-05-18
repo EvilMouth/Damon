@@ -1,20 +1,9 @@
 apply plugin: 'com.android.application'
-
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias keystoreProperties['damonExampleKeyAlias']
-            keyPassword keystoreProperties['damonExampleKeyPassword']
-            storeFile file(keystoreProperties['damonExampleStoreFile'])
-            storePassword keystoreProperties['damonExampleStorePassword']
-        }
-    }
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         applicationId "com.zyhang.damon.example"
@@ -26,18 +15,32 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
         }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:appcompat-v7:$support_version"
-//    implementation 'com.google.code.findbugs:jsr305:3.0.2'
-    implementation project(':damon')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation junit
+    androidTestImplementation runner
+    androidTestImplementation espresso
+
+    implementation appcompat
+
+    implementation kotlinStdlib
+
+    implementation rxjava
+    implementation rxandroid
+
+    implementation project(':damon-rxjava')
+    implementation project(':damon-rxjava-kotlin')
 }

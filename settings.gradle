@@ -1,1 +1,1 @@
-include ':damon', ':damon-kotlin', ':damon-example', ':damon-kotlin-example'
+include ':damon', ':damon-example', ':damon-rxjava', ':damon-rxjava-kotlin'

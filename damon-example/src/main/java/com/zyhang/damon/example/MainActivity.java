@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.zyhang.damon.RequiresPresenter;
-import com.zyhang.damon.support.MvpAppCompatActivity;
+import com.zyhang.damon.rxjava.support.MvpAppCompatActivityRx;
 
 @RequiresPresenter(MainPresenter.class)
-public class MainActivity extends MvpAppCompatActivity<MainPresenter> implements MainView {
+public class MainActivity extends MvpAppCompatActivityRx<MainPresenter> implements MainView {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

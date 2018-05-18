@@ -1,0 +1,62 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api "com.android.support:appcompat-v7:$support_version"
+
+    //kotlin
+    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    //rxjava
+    api "io.reactivex.rxjava2:rxjava:$rxjava_version"
+
+    //rxkotlin
+    api "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
+
+    //rxlifecycle
+    api "com.trello.rxlifecycle2:rxlifecycle:$rxlifecycle_version"
+    api "com.trello.rxlifecycle2:rxlifecycle-android:$rxlifecycle_version"
+    api "com.trello.rxlifecycle2:rxlifecycle-kotlin:$rxlifecycle_version"
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'damon-kotlin'
+
+    publishedGroupId = 'com.zyhang'
+    artifact = 'damon-kotlin'
+
+    siteUrl = 'https://github.com/izyhang/Damon'
+    gitUrl = 'https://github.com/izyhang/Damon.git'
+
+    libraryVersion = damon_version
+    libraryName = 'Damon-Kotlin'
+    libraryDescription = 'a android mvp framework based on rxjava rxlifecycle'
+
+    developerId = 'zyhang'
+    developerName = 'zyhang'
+    developerEmail = 'izyhang@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from:'../gradle/install.gradle'
+apply from:'../gradle/bintray.gradle'

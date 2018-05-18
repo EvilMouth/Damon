@@ -3,23 +3,10 @@ package com.zyhang.damon;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.trello.rxlifecycle2.LifecycleProvider;
-import com.trello.rxlifecycle2.LifecycleTransformer;
-import com.trello.rxlifecycle2.RxLifecycle;
-import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
-
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * ProjectName:Damon
@@ -30,7 +17,7 @@ import io.reactivex.subjects.BehaviorSubject;
  * Modify remark:
  */
 
-public class MvpPresenter<View extends MvpView> implements MvpPresenterHelper, LifecycleProvider<ActivityEvent> {
+public class MvpPresenter<View extends MvpView> implements MvpPresenterHelper {
 
     private View mView;
 
@@ -41,30 +28,6 @@ public class MvpPresenter<View extends MvpView> implements MvpPresenterHelper, L
      */
     public View getView() {
         return mView;
-    }
-
-    private BehaviorSubject<ActivityEvent> mLifecycleSubject = BehaviorSubject.create();
-
-    private CompositeDisposable mDisposable = new CompositeDisposable();
-
-    /**
-     * Registers a disposable to automatically dispose it during onDestroy.
-     * See {@link CompositeDisposable#add(Disposable)} for details.}
-     *
-     * @param disposable a disposable to add.
-     */
-    public void add(Disposable disposable) {
-        this.mDisposable.add(disposable);
-    }
-
-    /**
-     * Removes and unsubscribes a disposable that has been registered with {@link #add} previously.
-     * See {@link CompositeDisposable#remove(Disposable)} for details.
-     *
-     * @param disposable a disposable to remove.
-     */
-    public void remove(Disposable disposable) {
-        this.mDisposable.remove(disposable);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,22 +82,18 @@ public class MvpPresenter<View extends MvpView> implements MvpPresenterHelper, L
     /**
      * called when {@link Activity#onDestroy()},{@link Fragment#onDestroy()}
      */
-    @CallSuper
     @Override
     public void onDestroy() {
-        mDisposable.dispose();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     void create(View view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
-        mLifecycleSubject.onNext(ActivityEvent.CREATE);
         mView = view;
         onCreate(arguments, savedState);
     }
 
     void start() {
-        mLifecycleSubject.onNext(ActivityEvent.START);
         onStart();
     }
 
@@ -143,22 +102,18 @@ public class MvpPresenter<View extends MvpView> implements MvpPresenterHelper, L
     }
 
     void resume() {
-        mLifecycleSubject.onNext(ActivityEvent.RESUME);
         onResume();
     }
 
     void pause() {
-        mLifecycleSubject.onNext(ActivityEvent.PAUSE);
         onPause();
     }
 
     void stop() {
-        mLifecycleSubject.onNext(ActivityEvent.STOP);
         onStop();
     }
 
     void destroy() {
-        mLifecycleSubject.onNext(ActivityEvent.DESTROY);
         for (OnDestroyListener onDestroyListener : mOnDestroyListeners) {
             onDestroyListener.onDestroy();
         }
@@ -176,25 +131,5 @@ public class MvpPresenter<View extends MvpView> implements MvpPresenterHelper, L
 
     public void removeOnDestroyListener(OnDestroyListener listener) {
         mOnDestroyListeners.remove(listener);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @NonNull
-    @Override
-    public Observable<ActivityEvent> lifecycle() {
-        return mLifecycleSubject.hide();
-    }
-
-    @NonNull
-    @Override
-    public <T> LifecycleTransformer<T> bindUntilEvent(@NonNull ActivityEvent event) {
-        return RxLifecycle.bindUntilEvent(mLifecycleSubject, event);
-    }
-
-    @NonNull
-    @Override
-    public <T> LifecycleTransformer<T> bindToLifecycle() {
-        return RxLifecycleAndroid.bindActivity(mLifecycleSubject);
     }
 }

@@ -16,6 +16,10 @@ dependencies {
     androidTestImplementation espresso
 
     implementation appcompat
+
+    implementation rxjava
+
+    api project(':damon')
 }
 
 apply from: 'https://raw.githubusercontent.com/izyhang/novoda-push/master/gradle/push.gradle'

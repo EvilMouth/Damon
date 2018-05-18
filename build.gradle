@@ -1,17 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.kotlin_version = '1.2.41'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.novoda:bintray-release:0.8.1'
     }
 }
 
@@ -19,6 +19,15 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+    }
+
+    tasks.withType(Javadoc) {
+        options {
+            encoding 'UTF-8'
+            charSet 'UTF-8'
+            links "http://docs.oracle.com/javase/7/docs/api"
+        }
     }
 }
 
@@ -27,10 +36,22 @@ task clean(type: Delete) {
 }
 
 ext {
-
-    compileSdkVersion = 26
-    buildToolsVersion = "26.0.2"
+    compileSdkVersion = 27
     minSdkVersion = 16
-    targetSdkVersion = 26
+    targetSdkVersion = 27
 
+    supportVersion = '27.1.1'
+
+    junit = 'junit:junit:4.12'
+    runner = 'com.android.support.test:runner:1.0.2'
+    espresso = 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    appcompat = "com.android.support:appcompat-v7:$supportVersion"
+
+    rxjava = 'io.reactivex.rxjava2:rxjava:2.1.13'
+    rxandroid = 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
+    kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
+
+tasks.getByPath(":damon-rxjava-kotlin:releaseAndroidJavadocs").enabled = false

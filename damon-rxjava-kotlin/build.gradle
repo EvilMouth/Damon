@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -6,6 +7,10 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
@@ -16,6 +21,12 @@ dependencies {
     androidTestImplementation espresso
 
     implementation appcompat
+
+    implementation kotlinStdlib
+
+    implementation rxjava
+
+    api project(':damon-rxjava')
 }
 
 apply from: 'https://raw.githubusercontent.com/izyhang/novoda-push/master/gradle/push.gradle'

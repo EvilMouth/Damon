@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.zyhang.damon.MvpPresenter;
+import com.zyhang.damon.rxjava.MvpPresenterRx;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,21 +21,11 @@ import io.reactivex.functions.Consumer;
  * Modify remark:
  */
 
-public class MainPresenter extends MvpPresenter<MainView> {
+public class MainPresenter extends MvpPresenterRx<MainView> {
 
     @Override
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedState) {
         super.onCreate(arguments, savedState);
-
-//        Observable.interval(1, TimeUnit.SECONDS)
-//                .compose(this.<Long>bindToLifecycle())
-//                .subscribe(new Consumer<Long>() {
-//                    @Override
-//                    public void accept(@NonNull Long aLong) throws Exception {
-//                        Log.i("accept", String.format("aLong === %s", aLong));
-//                    }
-//                });
-
         getView().log("onCreate");
     }
 
@@ -43,13 +33,14 @@ public class MainPresenter extends MvpPresenter<MainView> {
     public void onResume() {
         super.onResume();
 
-        Observable.interval(1, TimeUnit.SECONDS)
-                .compose(this.<Long>bindToLifecycle())
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(@NonNull Long aLong) throws Exception {
-                        Log.i("accept", String.format("aLong === %s", aLong));
-                    }
-                });
+        add(
+                Observable.interval(1, TimeUnit.SECONDS)
+                        .subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(@NonNull Long aLong) throws Exception {
+                                Log.i("accept", String.format("aLong === %s", aLong));
+                            }
+                        })
+        );
     }
 }
