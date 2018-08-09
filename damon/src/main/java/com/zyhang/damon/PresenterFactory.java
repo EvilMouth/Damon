@@ -1,5 +1,7 @@
 package com.zyhang.damon;
 
+import java.util.List;
+
 /**
  * ProjectName:Damon
  * Description:
@@ -10,5 +12,5 @@ package com.zyhang.damon;
  */
 
 interface PresenterFactory<Presenter extends MvpPresenter> {
-    Presenter createPresenter();
+    List<Presenter> createPresenter();
 }

@@ -3,10 +3,12 @@ package com.zyhang.damon;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import java.util.List;
+
 /**
  * ProjectName:Damon
  * Description:
- * Created by zyhang on 2017/4/28.下午11:02
+ * Created by zyhang on 2017/4/28.23:02
  * Modify by:
  * Modify time:
  * Modify remark:
@@ -20,7 +22,7 @@ public class PresenterLifecycleDelegate<Presenter extends MvpPresenter> {
     @Nullable
     private PresenterFactory<Presenter> mPresenterFactory;
     @Nullable
-    private Presenter mPresenter;
+    private List<Presenter> mPresenters;
 
     private boolean mPresenterHasView;
 
@@ -51,10 +53,10 @@ public class PresenterLifecycleDelegate<Presenter extends MvpPresenter> {
             mPresenter = PresenterStorage.INSTANCE.getPresenter(presenterBundle.getString(PRESENTER_ID_KEY));
         }
 
-        if (mPresenter == null) {
+        if (mPresenters == null) {
             //noinspection ConstantConditions
-            mPresenter = mPresenterFactory.createPresenter();
-            PresenterStorage.INSTANCE.add(mPresenter);
+            mPresenters = mPresenterFactory.createPresenter();
+            PresenterStorage.INSTANCE.add(mPresenters);
         }
     }
 

@@ -19,5 +19,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequiresPresenter {
-    Class<? extends MvpPresenter> value();
+    Class<? extends MvpPresenter>[] value();
 }

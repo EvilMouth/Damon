@@ -2,6 +2,9 @@ package com.zyhang.damon;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ProjectName:Damon
  * Description:
@@ -13,9 +16,9 @@ import android.support.annotation.Nullable;
 
 public class ReflectionPresenterFactory<Presenter extends MvpPresenter> implements PresenterFactory<Presenter> {
 
-    private Class<Presenter> mPresenterClass;
+    private Class<Presenter>[] mPresenterClass;
 
-    private ReflectionPresenterFactory(Class<Presenter> presenterClass) {
+    private ReflectionPresenterFactory(Class<Presenter>[] presenterClass) {
         mPresenterClass = presenterClass;
     }
 
@@ -23,14 +26,18 @@ public class ReflectionPresenterFactory<Presenter extends MvpPresenter> implemen
     public static <P extends MvpPresenter> ReflectionPresenterFactory<P> fromViewClass(Class<?> cls) {
         RequiresPresenter annotation = cls.getAnnotation(RequiresPresenter.class);
         //noinspection unchecked
-        Class<P> pClass = null != annotation ? (Class<P>) annotation.value() : null;
+        Class<P>[] pClass = null != annotation ? (Class<P>[]) annotation.value() : null;
         return null != pClass ? new ReflectionPresenterFactory<>(pClass) : null;
     }
 
     @Override
-    public Presenter createPresenter() {
+    public List<Presenter> createPresenter() {
         try {
-            return mPresenterClass.newInstance();
+            List<Presenter> presenters = new ArrayList<>();
+            for (Class<Presenter> presenterClass : mPresenterClass) {
+                presenters.add(presenterClass.newInstance());
+            }
+            return presenters;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
