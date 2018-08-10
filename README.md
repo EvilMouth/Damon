@@ -6,13 +6,13 @@ damon is an android [Model-View-Presenter](http://en.wikipedia.org/wiki/Model%E2
 
 ## Installation
 ```
-implementation 'com.zyhang:damon:<last_version>'
+implementation 'com.zyhang:damon:1.1.0'
 
 // rxjava support
-implementation 'com.zyhang:damon-rxjava:<last_version>'
+implementation 'com.zyhang:damon-rxjava:1.1.0'
 
 // kotlin syntax
-implementation 'com.zyhang:damon-rxjava-kotlin:<last_version>'
+implementation 'com.zyhang:damon-rxjava-kotlin:1.1.0'
 ```
 
 ## Thanks
