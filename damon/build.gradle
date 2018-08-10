@@ -6,6 +6,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName POM_PUBLISH_VERSION
     }
 }
 
