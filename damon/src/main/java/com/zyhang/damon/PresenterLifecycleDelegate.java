@@ -14,43 +14,43 @@ import java.util.List;
  * Modify remark:
  */
 
-public class PresenterLifecycleDelegate<Presenter extends MvpPresenter> {
+public class PresenterLifecycleDelegate {
 
-    private static final String PRESENTER_KEY = "presenter";
-    private static final String PRESENTER_ID_KEY = "presenter_id";
+    private static final String PRESENTER_KEY = "presenter - ";
+    private static final String PRESENTER_ID_KEYS = "presenter_ids";
 
     @Nullable
-    private PresenterFactory<Presenter> mPresenterFactory;
+    private PresenterFactory mPresenterFactory;
     @Nullable
-    private List<Presenter> mPresenters;
+    private List<? extends MvpPresenter> mPresenters;
 
     private boolean mPresenterHasView;
 
-    public PresenterLifecycleDelegate(@Nullable PresenterFactory<Presenter> presenterFactory) {
+    public PresenterLifecycleDelegate(@Nullable PresenterFactory presenterFactory) {
         this.mPresenterFactory = presenterFactory;
     }
 
-    @Nullable
-    public Presenter getPresenter() {
-        return mPresenter;
-    }
-
     public void onCreate(MvpView view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
-        if (mPresenterFactory == null) return;
+        if (mPresenterFactory == null) {
+            return;
+        }
         Bundle presenterBundle = null;
         if (savedState != null) {
             presenterBundle = ParcelFn.unmarshall(ParcelFn.marshall(savedState));
         }
         createPresenter(presenterBundle);
-        if (mPresenter != null) {
-            //noinspection unchecked
-            mPresenter.create(view, arguments, null != presenterBundle ? presenterBundle.getBundle(PRESENTER_KEY) : null);
+        if (mPresenters != null && !mPresenters.isEmpty()) {
+            mPresenterFactory.bindPresenter(mPresenters);
+            for (MvpPresenter presenter : mPresenters) {
+                //noinspection unchecked
+                presenter.create(view, arguments, null != presenterBundle ? presenterBundle.getBundle(PRESENTER_KEY.concat(presenter.getClass().getSimpleName())) : null);
+            }
         }
     }
 
     private void createPresenter(Bundle presenterBundle) {
         if (presenterBundle != null) {
-            mPresenter = PresenterStorage.INSTANCE.getPresenter(presenterBundle.getString(PRESENTER_ID_KEY));
+            mPresenters = PresenterStorage.INSTANCE.getPresenter(presenterBundle.getStringArray(PRESENTER_ID_KEYS));
         }
 
         if (mPresenters == null) {
@@ -61,46 +61,62 @@ public class PresenterLifecycleDelegate<Presenter extends MvpPresenter> {
     }
 
     public void onStart() {
-        if (mPresenter != null) {
-            mPresenter.start();
+        if (mPresenters != null && !mPresenters.isEmpty()) {
+            for (MvpPresenter presenter : mPresenters) {
+                presenter.start();
+            }
         }
     }
 
     public Bundle onSaveInstanceState() {
         Bundle bundle = new Bundle();
-        if (mPresenter != null) {
-            Bundle presenterBundle = new Bundle();
-            mPresenter.save(presenterBundle);
-            bundle.putBundle(PRESENTER_KEY, presenterBundle);
-            bundle.putString(PRESENTER_ID_KEY, PresenterStorage.INSTANCE.getId(mPresenter));
+        if (mPresenters != null && !mPresenters.isEmpty()) {
+            String[] ids = new String[mPresenters.size()];
+            for (MvpPresenter presenter : mPresenters) {
+                Bundle presenterBundle = new Bundle();
+                presenter.save(presenterBundle);
+                bundle.putBundle(PRESENTER_KEY.concat(presenter.getClass().getSimpleName()), presenterBundle);
+
+                ids[mPresenters.indexOf(presenter)] = PresenterStorage.INSTANCE.getId(presenter);
+            }
+            bundle.putStringArray(PRESENTER_ID_KEYS, ids);
         }
         return bundle;
     }
 
     public void onResume() {
-        if (mPresenter != null && !mPresenterHasView) {
-            mPresenter.resume();
+        if (mPresenters != null && !mPresenters.isEmpty() && !mPresenterHasView) {
+            for (MvpPresenter presenter : mPresenters) {
+                presenter.resume();
+            }
             mPresenterHasView = true;
         }
     }
 
     public void onPause() {
-        if (mPresenter != null && mPresenterHasView) {
-            mPresenter.pause();
+        if (mPresenters != null && !mPresenters.isEmpty() && mPresenterHasView) {
+            for (MvpPresenter presenter : mPresenters) {
+                presenter.pause();
+            }
             mPresenterHasView = false;
         }
     }
 
     public void onStop() {
-        if (mPresenter != null) {
-            mPresenter.stop();
+        if (mPresenters != null && !mPresenters.isEmpty()) {
+            for (MvpPresenter presenter : mPresenters) {
+                presenter.stop();
+            }
         }
     }
 
     public void onDestroy(boolean isFinal) {
-        if (mPresenter != null && isFinal) {
-            mPresenter.destroy();
-            mPresenter = null;
+        if (isFinal && mPresenters != null && !mPresenters.isEmpty()) {
+            for (MvpPresenter presenter : mPresenters) {
+                presenter.destroy();
+            }
+            mPresenters.clear();
+            mPresenters = null;
         }
     }
 }

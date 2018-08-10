@@ -15,11 +15,11 @@ fun MvpPresenterRx<out MvpView>.add(disposable: () -> Disposable) {
     add(disposable())
 }
 
-fun MvpAppCompatActivityRx<out MvpPresenterRx<out MvpView>>.add(disposable: () -> Disposable) {
+fun MvpAppCompatActivityRx.add(disposable: () -> Disposable) {
     add(disposable())
 }
 
-fun MvpSupportFragmentRx<out MvpPresenterRx<out MvpView>>.add(disposable: () -> Disposable) {
+fun MvpSupportFragmentRx.add(disposable: () -> Disposable) {
     add(disposable())
 }
 

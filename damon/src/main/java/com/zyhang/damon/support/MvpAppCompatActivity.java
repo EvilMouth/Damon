@@ -4,31 +4,24 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.zyhang.damon.MvpPresenter;
 import com.zyhang.damon.MvpView;
 import com.zyhang.damon.PresenterLifecycleDelegate;
 import com.zyhang.damon.ReflectionPresenterFactory;
-import com.zyhang.damon.ViewWithPresenter;
 
 /**
  * ProjectName:Damon
  * Description:
- * Created by zyhang on 2017/4/28.下午11:24
+ * Created by zyhang on 2017/4/28.23:24
  * Modify by:
  * Modify time:
  * Modify remark:
  */
 
-public class MvpAppCompatActivity<Presenter extends MvpPresenter> extends AppCompatActivity implements ViewWithPresenter<Presenter>, MvpView {
+public class MvpAppCompatActivity extends AppCompatActivity implements MvpView {
 
     private static final String PRESENTER_STATE_KEY = "presenter_state";
-    private PresenterLifecycleDelegate<Presenter> mPresenterDelegate =
-            new PresenterLifecycleDelegate<>(ReflectionPresenterFactory.<Presenter>fromViewClass(getClass()));
-
-    @Override
-    public Presenter getPresenter() {
-        return mPresenterDelegate.getPresenter();
-    }
+    private PresenterLifecycleDelegate mPresenterDelegate =
+            new PresenterLifecycleDelegate(ReflectionPresenterFactory.fromViewClass(this, getClass()));
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

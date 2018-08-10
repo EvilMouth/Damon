@@ -41,6 +41,7 @@ dependencies {
     implementation rxjava
     implementation rxandroid
 
+    implementation project(':damon')
     implementation project(':damon-rxjava')
     implementation project(':damon-rxjava-kotlin')
 }

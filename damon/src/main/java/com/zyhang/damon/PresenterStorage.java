@@ -1,12 +1,15 @@
 package com.zyhang.damon;
 
+import android.support.annotation.Nullable;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * ProjectName:Damon
  * Description:
- * Created by zyhang on 2017/4/28.下午10:56
+ * Created by zyhang on 2017/4/28.22:56
  * Modify by:
  * Modify time:
  * Modify remark:
@@ -32,11 +35,26 @@ enum PresenterStorage {
         }
     }
 
-    public <P> P getPresenter(String id) {
-        //noinspection unchecked
-        return (P) mIdToPresenter.get(id);
+    @Nullable
+    public List<? extends MvpPresenter> getPresenter(@Nullable String[] ids) {
+        if (null == ids) {
+            return null;
+        }
+        List<MvpPresenter> presenters = null;
+        for (String id : ids) {
+            //noinspection unchecked
+            MvpPresenter presenter = mIdToPresenter.get(id);
+            if (presenter != null) {
+                if (null == presenters) {
+                    presenters = new ArrayList<>();
+                }
+                presenters.add(presenter);
+            }
+        }
+        return presenters;
     }
 
+    @Nullable
     public String getId(MvpPresenter presenter) {
         return mPresenterToId.get(presenter);
     }

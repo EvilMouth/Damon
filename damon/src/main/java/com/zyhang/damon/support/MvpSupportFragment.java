@@ -5,31 +5,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.zyhang.damon.MvpPresenter;
 import com.zyhang.damon.MvpView;
 import com.zyhang.damon.PresenterLifecycleDelegate;
 import com.zyhang.damon.ReflectionPresenterFactory;
-import com.zyhang.damon.ViewWithPresenter;
 
 /**
  * ProjectName:Damon
  * Description:
- * Created by zyhang on 2017/4/28.下午11:19
+ * Created by zyhang on 2017/4/28.23:19
  * Modify by:
  * Modify time:
  * Modify remark:
  */
 
-public class MvpSupportFragment<Presenter extends MvpPresenter> extends Fragment implements ViewWithPresenter<Presenter>, MvpView {
+public class MvpSupportFragment extends Fragment implements MvpView {
 
     private static final String PRESENTER_STATE_KEY = "presenter_state";
-    private PresenterLifecycleDelegate<Presenter> mPresenterDelegate =
-            new PresenterLifecycleDelegate<>(ReflectionPresenterFactory.<Presenter>fromViewClass(getClass()));
-
-    @Override
-    public Presenter getPresenter() {
-        return mPresenterDelegate.getPresenter();
-    }
+    private PresenterLifecycleDelegate mPresenterDelegate =
+            new PresenterLifecycleDelegate(ReflectionPresenterFactory.fromViewClass(this, getClass()));
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +62,7 @@ public class MvpSupportFragment<Presenter extends MvpPresenter> extends Fragment
 
     @Override
     public void onDestroy() {
-        mPresenterDelegate.onDestroy(!getActivity().isChangingConfigurations());
+        mPresenterDelegate.onDestroy(!requireActivity().isChangingConfigurations());
         super.onDestroy();
     }
 }
