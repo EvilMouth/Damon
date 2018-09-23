@@ -32,13 +32,13 @@ class MultiPresenterActivity : MvpAppCompatActivityRx(), ExampleView1, ExampleVi
 
 ## Installation
 ```
-implementation 'com.zyhang:damon:2.0.0-alpha'
+implementation 'com.zyhang:damon:<latest-version>'
 
 // rxjava support
-implementation 'com.zyhang:damon-rxjava:2.0.0-alpha'
+implementation 'com.zyhang:damon-rxjava:<latest-version>'
 
 // kotlin syntax
-implementation 'com.zyhang:damon-rxjava-kotlin:2.0.0-alpha'
+implementation 'com.zyhang:damon-rxjava-kotlin:<latest-version>'
 ```
 
 ## Thanks
