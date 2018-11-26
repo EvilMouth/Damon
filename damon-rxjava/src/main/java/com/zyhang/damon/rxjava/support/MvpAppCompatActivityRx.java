@@ -1,11 +1,10 @@
 package com.zyhang.damon.rxjava.support;
 
-import android.support.annotation.CallSuper;
-
 import com.zyhang.damon.MvpView;
 import com.zyhang.damon.rxjava.DisposableHelper;
 import com.zyhang.damon.support.MvpAppCompatActivity;
 
+import androidx.annotation.CallSuper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 

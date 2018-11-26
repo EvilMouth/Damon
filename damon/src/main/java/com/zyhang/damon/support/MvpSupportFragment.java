@@ -1,13 +1,17 @@
 package com.zyhang.damon.support;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.zyhang.damon.MvpView;
 import com.zyhang.damon.PresenterLifecycleDelegate;
 import com.zyhang.damon.ReflectionPresenterFactory;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * ProjectName:Damon
@@ -28,6 +32,13 @@ public class MvpSupportFragment extends Fragment implements MvpView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenterDelegate.onCreate(this, getArguments(), null != savedInstanceState ? savedInstanceState.getBundle(PRESENTER_STATE_KEY) : null);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mPresenterDelegate.onCreateView();
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -58,6 +69,12 @@ public class MvpSupportFragment extends Fragment implements MvpView {
     public void onStop() {
         mPresenterDelegate.onStop();
         super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        mPresenterDelegate.onDestroyView();
+        super.onDestroyView();
     }
 
     @Override

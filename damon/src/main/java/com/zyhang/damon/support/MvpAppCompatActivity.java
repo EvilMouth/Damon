@@ -1,12 +1,13 @@
 package com.zyhang.damon.support;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.zyhang.damon.MvpView;
 import com.zyhang.damon.PresenterLifecycleDelegate;
 import com.zyhang.damon.ReflectionPresenterFactory;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * ProjectName:Damon
@@ -27,6 +28,7 @@ public class MvpAppCompatActivity extends AppCompatActivity implements MvpView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenterDelegate.onCreate(this, getIntent().getExtras(), null != savedInstanceState ? savedInstanceState.getBundle(PRESENTER_STATE_KEY) : null);
+        mPresenterDelegate.onCreateView();
     }
 
     @Override
@@ -61,6 +63,7 @@ public class MvpAppCompatActivity extends AppCompatActivity implements MvpView {
 
     @Override
     public void onDestroy() {
+        mPresenterDelegate.onDestroyView();
         mPresenterDelegate.onDestroy(!isChangingConfigurations());
         super.onDestroy();
     }

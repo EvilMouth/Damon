@@ -1,9 +1,10 @@
 package com.zyhang.damon;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * ProjectName:Damon
@@ -60,6 +61,14 @@ public class PresenterLifecycleDelegate {
         }
     }
 
+    public void onCreateView() {
+        if (mPresenters != null && !mPresenters.isEmpty()) {
+            for (MvpPresenter presenter : mPresenters) {
+                presenter.createView();
+            }
+        }
+    }
+
     public void onStart() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
@@ -106,6 +115,14 @@ public class PresenterLifecycleDelegate {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.stop();
+            }
+        }
+    }
+
+    public void onDestroyView() {
+        if (mPresenters != null && !mPresenters.isEmpty()) {
+            for (MvpPresenter presenter : mPresenters) {
+                presenter.destroyView();
             }
         }
     }
