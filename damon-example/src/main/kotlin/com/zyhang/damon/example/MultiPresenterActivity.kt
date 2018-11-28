@@ -13,6 +13,7 @@ class MultiPresenterActivity : MvpAppCompatActivityRx(), ExampleView1, ExampleVi
     private var presenter1: ExamplePresenter1? = null
     @BindPresenter
     private var presenter2: ExamplePresenter2? = null
+
     private var messages = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,13 +31,8 @@ class MultiPresenterActivity : MvpAppCompatActivityRx(), ExampleView1, ExampleVi
             "\n$msg"
         }
 
-        try {
-            runOnUiThread {
-                multi_presenter_tv.text = messages
-            }
-        } catch (e: Exception) {
-            // because presenter.onCreate before setContentView
-            // so single_presenter_tv be null
+        multi_presenter_tv?.post {
+            multi_presenter_tv.text = messages
         }
     }
 }

@@ -16,15 +16,20 @@ class ExamplePresenter2 : MvpPresenterRx<ExampleView2>() {
 
     override fun onCreate(arguments: Bundle?, savedState: Bundle?) {
         super.onCreate(arguments, savedState)
-        view.log("ExamplePresenter2.onCreate")
+        view?.log("ExamplePresenter2.onCreate")
     }
 
     override fun onResume() {
         super.onResume()
-        view.log("ExamplePresenter2.onResume")
+        view?.log("ExamplePresenter2.onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        view?.log("ExamplePresenter2.onPause")
     }
 
     fun logByView(msg: String) {
-        view.log(msg)
+        view?.log(msg)
     }
 }

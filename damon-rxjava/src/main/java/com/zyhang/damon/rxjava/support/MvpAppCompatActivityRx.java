@@ -14,35 +14,45 @@ import io.reactivex.disposables.Disposable;
 
 public class MvpAppCompatActivityRx extends MvpAppCompatActivity implements DisposableHelper, MvpView {
 
-    private CompositeDisposable mDisposable = new CompositeDisposable();
+    private CompositeDisposable pause = new CompositeDisposable();
+    private CompositeDisposable destroyView = new CompositeDisposable();
 
-    /**
-     * Registers a disposable to automatically dispose it during onDestroy.
-     * See {@link CompositeDisposable#add(Disposable)} for details.}
-     *
-     * @param disposable a disposable to add.
-     */
     @CallSuper
     @Override
-    public void add(Disposable disposable) {
-        this.mDisposable.add(disposable);
+    public void add(Disposable disposable, @DisposeOn int disposeOn) {
+        switch (disposeOn) {
+            case DISPOSE_ON_PAUSE:
+                pause.add(disposable);
+                break;
+            case DISPOSE_ON_DESTROY_VIEW:
+                destroyView.add(disposable);
+                break;
+        }
     }
 
-    /**
-     * Removes and unsubscribes a disposable that has been registered with {@link #add} previously.
-     * See {@link CompositeDisposable#remove(Disposable)} for details.
-     *
-     * @param disposable a disposable to remove.
-     */
     @CallSuper
     @Override
-    public void remove(Disposable disposable) {
-        this.mDisposable.remove(disposable);
+    public void remove(Disposable disposable, @DisposeOn int disposeOn) {
+        switch (disposeOn) {
+            case DISPOSE_ON_PAUSE:
+                pause.remove(disposable);
+                break;
+            case DISPOSE_ON_DESTROY_VIEW:
+                destroyView.remove(disposable);
+                break;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        pause.clear();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDisposable.dispose();
+        pause.dispose();
+        destroyView.dispose();
     }
 }

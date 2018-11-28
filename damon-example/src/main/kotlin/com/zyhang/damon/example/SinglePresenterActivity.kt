@@ -11,6 +11,7 @@ class SinglePresenterActivity : MvpAppCompatActivityRx(), ExampleView1 {
 
     @BindPresenter
     private var presenter1: ExamplePresenter1? = null
+
     private var messages = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,13 +28,8 @@ class SinglePresenterActivity : MvpAppCompatActivityRx(), ExampleView1 {
             "\n$msg"
         }
 
-        try {
-            runOnUiThread {
-                single_presenter_tv.text = messages
-            }
-        } catch (e: Exception) {
-            // because presenter.onCreate before setContentView
-            // so single_presenter_tv be null
+        single_presenter_tv?.post {
+            single_presenter_tv.text = messages
         }
     }
 }

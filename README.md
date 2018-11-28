@@ -7,13 +7,13 @@ damon is an android [Model-View-Presenter](http://en.wikipedia.org/wiki/Model%E2
 ## Multi Presenter Version
 
 - @RequiresPresenter支持多Presenter注入
-- 增加@BindPresenter替换getPresenter()
+- @BindPresenter替换getPresenter()
 
 ## Usage
 
 ``` kotlin
 @RequiresPresenter(value = [ExamplePresenter1::class, ExamplePresenter2::class])
-class MultiPresenterActivity : MvpAppCompatActivityRx(), ExampleView1, ExampleView2 {
+class MultiPresenterActivity : MvpAppCompatActivity(), ExampleView1, ExampleView2 {
     
     @BindPresenter
     private var presenter1: ExamplePresenter1? = null
@@ -24,16 +24,23 @@ class MultiPresenterActivity : MvpAppCompatActivityRx(), ExampleView1, ExampleVi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multi_presenter)
 
-        presenter1?.logByView("presenter1 from @BindPresenter")
-        presenter2?.logByView("presenter2 from @BindPresenter")
+        presenter1?.log("presenter1 from @BindPresenter")
+        presenter2?.log("presenter2 from @BindPresenter")
     }
 }
 ```
 
 ## Installation
-```
-implementation 'com.zyhang:damon:<latest-version>'
 
+```groovy
+implementation 'com.zyhang:damon:<latest-version>'
+```
+
+## Rx Kotlin Extension
+
+- 支持自动dispose
+
+```groovy
 // rxjava support
 implementation 'com.zyhang:damon-rxjava:<latest-version>'
 
@@ -42,4 +49,4 @@ implementation 'com.zyhang:damon-rxjava-kotlin:<latest-version>'
 ```
 
 ## Thanks
-[konmik/nucleus](https://github.com/konmik/nucleus/tree/rx2)
+[konmik/nucleus](https://github.com/konmik/nucleus/tree/master)

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Created by zyhang on 2018/8/10.10:30
  */
 
+@Suppress("UNUSED_PARAMETER")
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

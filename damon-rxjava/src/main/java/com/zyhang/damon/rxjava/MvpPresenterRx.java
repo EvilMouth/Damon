@@ -13,36 +13,51 @@ import io.reactivex.disposables.Disposable;
 
 public class MvpPresenterRx<View extends MvpView> extends MvpPresenter<View> implements DisposableHelper {
 
-    private CompositeDisposable mDisposable = new CompositeDisposable();
+    private CompositeDisposable pause = new CompositeDisposable();
+    private CompositeDisposable destroyView = new CompositeDisposable();
 
-    /**
-     * Registers a disposable to automatically dispose it during onDestroy.
-     * See {@link CompositeDisposable#add(Disposable)} for details.}
-     *
-     * @param disposable a disposable to add.
-     */
     @CallSuper
     @Override
-    public void add(Disposable disposable) {
-        this.mDisposable.add(disposable);
-    }
-
-    /**
-     * Removes and unsubscribes a disposable that has been registered with {@link #add} previously.
-     * See {@link CompositeDisposable#remove(Disposable)} for details.
-     *
-     * @param disposable a disposable to remove.
-     */
-    @CallSuper
-    @Override
-    public void remove(Disposable disposable) {
-        this.mDisposable.remove(disposable);
+    public void add(Disposable disposable, @DisposeOn int disposeOn) {
+        switch (disposeOn) {
+            case DISPOSE_ON_PAUSE:
+                pause.add(disposable);
+                break;
+            case DISPOSE_ON_DESTROY_VIEW:
+                destroyView.add(disposable);
+                break;
+        }
     }
 
     @CallSuper
     @Override
-    public void onDestroy() {
+    public void remove(Disposable disposable, @DisposeOn int disposeOn) {
+        switch (disposeOn) {
+            case DISPOSE_ON_PAUSE:
+                pause.remove(disposable);
+                break;
+            case DISPOSE_ON_DESTROY_VIEW:
+                destroyView.remove(disposable);
+                break;
+        }
+    }
+
+    @CallSuper
+    @Override
+    protected void onPause() {
+        pause.clear();
+    }
+
+    @CallSuper
+    @Override
+    protected void onDestroyView() {
+        destroyView.clear();
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
-        mDisposable.dispose();
+        pause.dispose();
+        destroyView.dispose();
     }
 }
