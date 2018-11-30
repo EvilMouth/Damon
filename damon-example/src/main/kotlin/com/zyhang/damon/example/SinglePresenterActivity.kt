@@ -2,11 +2,11 @@ package com.zyhang.damon.example
 
 import android.os.Bundle
 import com.zyhang.damon.annotation.RequiresPresenter
-import com.zyhang.damon.rxjava.support.MvpAppCompatActivityRx
+import com.zyhang.damon.rxjava.support.RxMvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_single_presenter.*
 
 @RequiresPresenter(ExamplePresenter1::class)
-class SinglePresenterActivity : MvpAppCompatActivityRx<ExamplePresenter1>(), ExampleView1 {
+class SinglePresenterActivity : RxMvpAppCompatActivity<ExamplePresenter1>(), ExampleView1 {
 
     private var messages = ""
 

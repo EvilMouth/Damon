@@ -1,9 +1,5 @@
 package com.zyhang.damon.rxjava;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import androidx.annotation.IntDef;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -12,15 +8,6 @@ import io.reactivex.disposables.Disposable;
  */
 
 public interface DisposableHelper {
-
-    int DISPOSE_ON_PAUSE = 1;
-    int DISPOSE_ON_DESTROY_VIEW = 2;
-
-    @IntDef({DISPOSE_ON_PAUSE, DISPOSE_ON_DESTROY_VIEW})
-    @Retention(RetentionPolicy.SOURCE)
-    @interface DisposeOn {
-    }
-
     /**
      * Registers a disposable to automatically dispose it during @disposable.
      * See {@link CompositeDisposable#add(Disposable)} for details.}

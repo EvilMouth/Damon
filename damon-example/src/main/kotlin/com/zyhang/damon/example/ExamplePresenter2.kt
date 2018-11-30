@@ -1,7 +1,7 @@
 package com.zyhang.damon.example
 
 import android.os.Bundle
-import com.zyhang.damon.rxjava.MvpPresenterRx
+import com.zyhang.damon.rxjava.RxMvpPresenter
 
 /**
  * ProjectName:Damon
@@ -12,7 +12,7 @@ import com.zyhang.damon.rxjava.MvpPresenterRx
  * Modify remark:
  */
 
-class ExamplePresenter2 : MvpPresenterRx<ExampleView2>() {
+class ExamplePresenter2 : RxMvpPresenter<ExampleView2>() {
 
     override fun onCreate(arguments: Bundle?, savedState: Bundle?) {
         super.onCreate(arguments, savedState)

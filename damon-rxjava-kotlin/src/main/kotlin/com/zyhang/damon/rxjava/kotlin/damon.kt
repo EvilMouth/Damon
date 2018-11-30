@@ -1,9 +1,10 @@
 package com.zyhang.damon.rxjava.kotlin
 
 import com.zyhang.damon.rxjava.DisposableHelper
-import com.zyhang.damon.rxjava.MvpPresenterRx
-import com.zyhang.damon.rxjava.support.MvpAppCompatActivityRx
-import com.zyhang.damon.rxjava.support.MvpSupportFragmentRx
+import com.zyhang.damon.rxjava.DisposeOn
+import com.zyhang.damon.rxjava.RxMvpPresenter
+import com.zyhang.damon.rxjava.support.RxMvpAppCompatActivity
+import com.zyhang.damon.rxjava.support.RxMvpSupportFragment
 import io.reactivex.disposables.Disposable
 
 /**
@@ -11,19 +12,19 @@ import io.reactivex.disposables.Disposable
  */
 
 /**
- * @see MvpPresenterRx.add
- * @see MvpAppCompatActivityRx.add
- * @see MvpSupportFragmentRx.add
+ * @see RxMvpPresenter.add
+ * @see RxMvpAppCompatActivity.add
+ * @see RxMvpSupportFragment.add
  */
-fun DisposableHelper.add(@DisposableHelper.DisposeOn disposeOn: Int, disposable: () -> Disposable) {
+fun DisposableHelper.add(@DisposeOn disposeOn: Int, disposable: () -> Disposable) {
     add(disposable(), disposeOn)
 }
 
 /**
- * @see MvpPresenterRx.add
- * @see MvpAppCompatActivityRx.add
- * @see MvpSupportFragmentRx.add
+ * @see RxMvpPresenter.add
+ * @see RxMvpAppCompatActivity.add
+ * @see RxMvpSupportFragment.add
  */
-fun Disposable.autoDispose(disposableHelper: DisposableHelper, @DisposableHelper.DisposeOn disposeOn: Int) {
+fun Disposable.autoDispose(disposableHelper: DisposableHelper, @DisposeOn disposeOn: Int) {
     disposableHelper.add(this, disposeOn)
 }

@@ -1,8 +1,8 @@
 package com.zyhang.damon.example
 
 import android.os.Bundle
-import com.zyhang.damon.rxjava.DisposableHelper
-import com.zyhang.damon.rxjava.MvpPresenterRx
+import com.zyhang.damon.rxjava.DisposeOn
+import com.zyhang.damon.rxjava.RxMvpPresenter
 import com.zyhang.damon.rxjava.kotlin.autoDispose
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
  * Modify remark:
  */
 
-class ExamplePresenter1 : MvpPresenterRx<ExampleView1>() {
+class ExamplePresenter1 : RxMvpPresenter<ExampleView1>() {
 
     override fun onCreate(arguments: Bundle?, savedState: Bundle?) {
         super.onCreate(arguments, savedState)
@@ -32,7 +32,7 @@ class ExamplePresenter1 : MvpPresenterRx<ExampleView1>() {
                 .subscribe { aLong ->
                     view?.log("ExamplePresenter1.aLong === $aLong")
                 }
-                .autoDispose(this, DisposableHelper.DISPOSE_ON_PAUSE)
+                .autoDispose(this, DisposeOn.PAUSE)
     }
 
     override fun onPause() {
