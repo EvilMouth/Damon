@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import com.zyhang.damon.support.MvpAppCompatActivity;
 import com.zyhang.damon.support.MvpSupportFragment;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -160,22 +158,7 @@ public class MvpPresenter<View extends MvpView> {
     }
 
     void destroy() {
-        for (OnDestroyListener onDestroyListener : mOnDestroyListeners) {
-            onDestroyListener.onDestroy();
-        }
         onDestroy();
         mView = null;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private CopyOnWriteArrayList<OnDestroyListener> mOnDestroyListeners = new CopyOnWriteArrayList<>();
-
-    public void addOnDestroyListener(OnDestroyListener listener) {
-        mOnDestroyListeners.add(listener);
-    }
-
-    public void removeOnDestroyListener(OnDestroyListener listener) {
-        mOnDestroyListeners.remove(listener);
     }
 }

@@ -132,6 +132,7 @@ public class PresenterLifecycleDelegate {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.destroy();
             }
+            PresenterStorage.INSTANCE.remove(mPresenters);
             mPresenters.clear();
             mPresenters = null;
         }

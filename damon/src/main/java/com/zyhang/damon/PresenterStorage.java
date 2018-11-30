@@ -1,10 +1,11 @@
 package com.zyhang.damon;
 
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 
 /**
  * ProjectName:Damon
@@ -18,25 +19,25 @@ import androidx.annotation.Nullable;
 enum PresenterStorage {
     INSTANCE;
 
-    private HashMap<String, MvpPresenter> mIdToPresenter = new HashMap<>();
-    private HashMap<MvpPresenter, String> mPresenterToId = new HashMap<>();
+    private ArrayMap<String, MvpPresenter> mIdToPresenter = new ArrayMap<>();
+    private ArrayMap<MvpPresenter, String> mPresenterToId = new ArrayMap<>();
 
-    public void add(List<? extends MvpPresenter> presenters) {
-        for (final MvpPresenter presenter : presenters) {
+    void add(List<? extends MvpPresenter> presenters) {
+        for (MvpPresenter presenter : presenters) {
             String id = presenter.getClass().getSimpleName() + "/" + System.nanoTime() + "/" + (int) (Math.random() * Integer.MAX_VALUE);
             mIdToPresenter.put(id, presenter);
             mPresenterToId.put(presenter, id);
-            presenter.addOnDestroyListener(new OnDestroyListener() {
-                @Override
-                public void onDestroy() {
-                    mIdToPresenter.remove(mPresenterToId.remove(presenter));
-                }
-            });
+        }
+    }
+
+    void remove(List<? extends MvpPresenter> presenters) {
+        for (MvpPresenter presenter : presenters) {
+            mIdToPresenter.remove(mPresenterToId.remove(presenter));
         }
     }
 
     @Nullable
-    public List<? extends MvpPresenter> getPresenter(@Nullable String[] ids) {
+    List<? extends MvpPresenter> getPresenter(@Nullable String[] ids) {
         if (null == ids) {
             return null;
         }
@@ -55,7 +56,7 @@ enum PresenterStorage {
     }
 
     @Nullable
-    public String getId(MvpPresenter presenter) {
+    String getId(MvpPresenter presenter) {
         return mPresenterToId.get(presenter);
     }
 }
