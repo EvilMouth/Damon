@@ -2,9 +2,13 @@ package com.zyhang.damon.support;
 
 import android.os.Bundle;
 
+import com.zyhang.damon.MvpPresenter;
 import com.zyhang.damon.MvpView;
+import com.zyhang.damon.factory.PresenterGetter;
 import com.zyhang.damon.PresenterLifecycleDelegate;
-import com.zyhang.damon.ReflectionPresenterFactory;
+import com.zyhang.damon.factory.ReflectionPresenterFactory;
+
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +22,23 @@ import androidx.appcompat.app.AppCompatActivity;
  * Modify remark:
  */
 
-public class MvpAppCompatActivity extends AppCompatActivity implements MvpView {
+public class MvpAppCompatActivity<P extends MvpPresenter> extends AppCompatActivity implements PresenterGetter<P>, MvpView {
 
     private static final String PRESENTER_STATE_KEY = "presenter_state";
-    private PresenterLifecycleDelegate mPresenterDelegate =
-            new PresenterLifecycleDelegate(ReflectionPresenterFactory.fromViewClass(this, getClass()));
+    private PresenterLifecycleDelegate<P> mPresenterDelegate =
+            new PresenterLifecycleDelegate<>(ReflectionPresenterFactory.fromViewClass(this, getClass()));
+
+    @Nullable
+    @Override
+    public List<? extends MvpPresenter> getPresenters() {
+        return mPresenterDelegate.getPresenters();
+    }
+
+    @Nullable
+    @Override
+    public P getPresenter() {
+        return mPresenterDelegate.getPresenter();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

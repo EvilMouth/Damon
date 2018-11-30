@@ -1,4 +1,6 @@
-package com.zyhang.damon;
+package com.zyhang.damon.factory;
+
+import com.zyhang.damon.MvpPresenter;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * Modify remark:
  */
 
-interface PresenterFactory {
+public interface PresenterFactory {
     List<? extends MvpPresenter> createPresenter();
 
     void bindPresenter(List<? extends MvpPresenter> presenters);

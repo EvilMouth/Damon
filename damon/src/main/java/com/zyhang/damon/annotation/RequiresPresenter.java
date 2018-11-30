@@ -1,4 +1,6 @@
-package com.zyhang.damon;
+package com.zyhang.damon.annotation;
+
+import com.zyhang.damon.MvpPresenter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

@@ -2,6 +2,9 @@ package com.zyhang.damon;
 
 import android.os.Bundle;
 
+import com.zyhang.damon.factory.PresenterFactory;
+import com.zyhang.damon.factory.PresenterGetter;
+
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -15,7 +18,7 @@ import androidx.annotation.Nullable;
  * Modify remark:
  */
 
-public class PresenterLifecycleDelegate {
+public class PresenterLifecycleDelegate<P extends MvpPresenter> implements PresenterGetter<P> {
 
     private static final String PRESENTER_KEY = "presenter - ";
     private static final String PRESENTER_ID_KEYS = "presenter_ids";
@@ -29,6 +32,24 @@ public class PresenterLifecycleDelegate {
 
     public PresenterLifecycleDelegate(@Nullable PresenterFactory presenterFactory) {
         this.mPresenterFactory = presenterFactory;
+    }
+
+    @Nullable
+    @Override
+    public List<? extends MvpPresenter> getPresenters() {
+        return mPresenters;
+    }
+
+    @Nullable
+    @Override
+    public P getPresenter() {
+        if (mPresenters == null || mPresenters.isEmpty()) {
+            return null;
+        }
+        // 导致ClassCastException的原因
+        // 1.@RequiresPresenter注入了多个Presenter并且Activity泛型P不是@RequiresPresenter的第一个
+        // 2.@RequiresPresenter注入的Presenter与Activity泛型P不匹配
+        return (P) mPresenters.get(0);
     }
 
     public void onCreate(MvpView view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
@@ -55,7 +76,6 @@ public class PresenterLifecycleDelegate {
         }
 
         if (mPresenters == null) {
-            //noinspection ConstantConditions
             mPresenters = mPresenterFactory.createPresenter();
             PresenterStorage.INSTANCE.add(mPresenters);
         }

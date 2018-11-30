@@ -5,9 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zyhang.damon.MvpPresenter;
 import com.zyhang.damon.MvpView;
+import com.zyhang.damon.factory.PresenterGetter;
 import com.zyhang.damon.PresenterLifecycleDelegate;
-import com.zyhang.damon.ReflectionPresenterFactory;
+import com.zyhang.damon.factory.ReflectionPresenterFactory;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,11 +26,23 @@ import androidx.fragment.app.Fragment;
  * Modify remark:
  */
 
-public class MvpSupportFragment extends Fragment implements MvpView {
+public class MvpSupportFragment<P extends MvpPresenter> extends Fragment implements PresenterGetter<P>, MvpView {
 
     private static final String PRESENTER_STATE_KEY = "presenter_state";
-    private PresenterLifecycleDelegate mPresenterDelegate =
-            new PresenterLifecycleDelegate(ReflectionPresenterFactory.fromViewClass(this, getClass()));
+    private PresenterLifecycleDelegate<P> mPresenterDelegate =
+            new PresenterLifecycleDelegate<>(ReflectionPresenterFactory.fromViewClass(this, getClass()));
+
+    @Nullable
+    @Override
+    public List<? extends MvpPresenter> getPresenters() {
+        return mPresenterDelegate.getPresenters();
+    }
+
+    @Nullable
+    @Override
+    public P getPresenter() {
+        return mPresenterDelegate.getPresenter();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

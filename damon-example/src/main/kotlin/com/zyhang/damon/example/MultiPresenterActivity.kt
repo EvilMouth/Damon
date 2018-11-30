@@ -1,13 +1,13 @@
 package com.zyhang.damon.example
 
 import android.os.Bundle
-import com.zyhang.damon.BindPresenter
-import com.zyhang.damon.RequiresPresenter
+import com.zyhang.damon.annotation.BindPresenter
+import com.zyhang.damon.annotation.RequiresPresenter
 import com.zyhang.damon.rxjava.support.MvpAppCompatActivityRx
 import kotlinx.android.synthetic.main.activity_multi_presenter.*
 
 @RequiresPresenter(value = [ExamplePresenter1::class, ExamplePresenter2::class])
-class MultiPresenterActivity : MvpAppCompatActivityRx(), ExampleView1, ExampleView2 {
+class MultiPresenterActivity : MvpAppCompatActivityRx<ExamplePresenter1>(), ExampleView1, ExampleView2 {
 
     @BindPresenter
     private var presenter1: ExamplePresenter1? = null

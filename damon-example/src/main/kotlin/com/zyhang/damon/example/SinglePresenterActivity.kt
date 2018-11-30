@@ -1,16 +1,12 @@
 package com.zyhang.damon.example
 
 import android.os.Bundle
-import com.zyhang.damon.BindPresenter
-import com.zyhang.damon.RequiresPresenter
+import com.zyhang.damon.annotation.RequiresPresenter
 import com.zyhang.damon.rxjava.support.MvpAppCompatActivityRx
 import kotlinx.android.synthetic.main.activity_single_presenter.*
 
 @RequiresPresenter(ExamplePresenter1::class)
-class SinglePresenterActivity : MvpAppCompatActivityRx(), ExampleView1 {
-
-    @BindPresenter
-    private var presenter1: ExamplePresenter1? = null
+class SinglePresenterActivity : MvpAppCompatActivityRx<ExamplePresenter1>(), ExampleView1 {
 
     private var messages = ""
 
@@ -18,7 +14,7 @@ class SinglePresenterActivity : MvpAppCompatActivityRx(), ExampleView1 {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_presenter)
 
-        presenter1?.logByView("presenter1 from @BindPresenter")
+        presenter?.logByView("presenter1 from getPresenter")
     }
 
     override fun log(msg: String) {

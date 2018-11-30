@@ -2,6 +2,7 @@ package com.zyhang.damon.rxjava.support;
 
 import com.zyhang.damon.MvpView;
 import com.zyhang.damon.rxjava.DisposableHelper;
+import com.zyhang.damon.rxjava.MvpPresenterRx;
 import com.zyhang.damon.support.MvpAppCompatActivity;
 
 import androidx.annotation.CallSuper;
@@ -12,7 +13,7 @@ import io.reactivex.disposables.Disposable;
  * Created by zyhang on 2018/5/15.16:52
  */
 
-public class MvpAppCompatActivityRx extends MvpAppCompatActivity implements DisposableHelper, MvpView {
+public class MvpAppCompatActivityRx<P extends MvpPresenterRx> extends MvpAppCompatActivity<P> implements DisposableHelper, MvpView {
 
     private CompositeDisposable pause = new CompositeDisposable();
     private CompositeDisposable destroyView = new CompositeDisposable();
