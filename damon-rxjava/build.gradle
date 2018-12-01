@@ -5,20 +5,23 @@ android {
 
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName POM_PUBLISH_VERSION
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation junit
     androidTestImplementation runner
     androidTestImplementation espresso
-
     implementation appcompat
-
     implementation rxjava
-
     api project(':damon')
 }
 

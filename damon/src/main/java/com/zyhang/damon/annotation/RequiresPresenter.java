@@ -1,4 +1,6 @@
-package com.zyhang.damon;
+package com.zyhang.damon.annotation;
+
+import com.zyhang.damon.MvpPresenter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -9,7 +11,7 @@ import java.lang.annotation.Target;
 /**
  * ProjectName:Damon
  * Description:
- * Created by zyhang on 2017/4/28.下午10:58
+ * Created by zyhang on 2017/4/28.22:58
  * Modify by:
  * Modify time:
  * Modify remark:
@@ -19,5 +21,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequiresPresenter {
-    Class<? extends MvpPresenter> value();
+    Class<? extends MvpPresenter>[] value();
 }
