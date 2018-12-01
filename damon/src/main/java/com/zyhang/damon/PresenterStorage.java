@@ -1,11 +1,16 @@
 package com.zyhang.damon;
 
-import java.util.HashMap;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 
 /**
  * ProjectName:Damon
  * Description:
- * Created by zyhang on 2017/4/28.下午10:56
+ * Created by zyhang on 2017/4/28.22:56
  * Modify by:
  * Modify time:
  * Modify remark:
@@ -14,27 +19,44 @@ import java.util.HashMap;
 enum PresenterStorage {
     INSTANCE;
 
-    private HashMap<String, MvpPresenter> mIdToPresenter = new HashMap<>();
-    private HashMap<MvpPresenter, String> mPresenterToId = new HashMap<>();
+    private ArrayMap<String, MvpPresenter> mIdToPresenter = new ArrayMap<>();
+    private ArrayMap<MvpPresenter, String> mPresenterToId = new ArrayMap<>();
 
-    public void add(final MvpPresenter presenter) {
-        String id = presenter.getClass().getSimpleName() + "/" + System.nanoTime() + "/" + (int) (Math.random() * Integer.MAX_VALUE);
-        mIdToPresenter.put(id, presenter);
-        mPresenterToId.put(presenter, id);
-        presenter.addOnDestroyListener(new OnDestroyListener() {
-            @Override
-            public void onDestroy() {
-                mIdToPresenter.remove(mPresenterToId.remove(presenter));
+    void add(List<? extends MvpPresenter> presenters) {
+        for (MvpPresenter presenter : presenters) {
+            String id = presenter.getClass().getSimpleName() + "/" + System.nanoTime() + "/" + (int) (Math.random() * Integer.MAX_VALUE);
+            mIdToPresenter.put(id, presenter);
+            mPresenterToId.put(presenter, id);
+        }
+    }
+
+    void remove(List<? extends MvpPresenter> presenters) {
+        for (MvpPresenter presenter : presenters) {
+            mIdToPresenter.remove(mPresenterToId.remove(presenter));
+        }
+    }
+
+    @Nullable
+    List<? extends MvpPresenter> getPresenter(@Nullable String[] ids) {
+        if (null == ids) {
+            return null;
+        }
+        List<MvpPresenter> presenters = null;
+        for (String id : ids) {
+            //noinspection unchecked
+            MvpPresenter presenter = mIdToPresenter.get(id);
+            if (presenter != null) {
+                if (null == presenters) {
+                    presenters = new ArrayList<>();
+                }
+                presenters.add(presenter);
             }
-        });
+        }
+        return presenters;
     }
 
-    public <P> P getPresenter(String id) {
-        //noinspection unchecked
-        return (P) mIdToPresenter.get(id);
-    }
-
-    public String getId(MvpPresenter presenter) {
+    @Nullable
+    String getId(MvpPresenter presenter) {
         return mPresenterToId.get(presenter);
     }
 }

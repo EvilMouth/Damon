@@ -5,12 +5,12 @@ import com.zyhang.damon.MvpView
 /**
  * ProjectName:Damon
  * Description:
- * Created by zyhang on 2017/4/28.下午11:39
+ * Created by zyhang on 2017/4/28.23:39
  * Modify by:
  * Modify time:
  * Modify remark:
  */
 
-interface KotlinView : MvpView {
-    fun log(tips: String)
+interface ExampleView1 : MvpView {
+    fun log(msg: String)
 }
