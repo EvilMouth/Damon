@@ -155,6 +155,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
             PresenterStorage.INSTANCE.remove(mPresenters);
             mPresenters.clear();
             mPresenters = null;
+            mPresenterFactory = null;
         }
     }
 }

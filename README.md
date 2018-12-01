@@ -4,28 +4,30 @@
 
 damon is an android [Model-View-Presenter](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter) framework
 
-## Multi Presenter Version
+## Features
 
-- @RequiresPresenter支持多Presenter注入
-- @BindPresenter替换getPresenter()
+- @RequiresPresenter注入多Presenter
+- @BindPresenter赋值
+- Presenter缓存以及状态恢复
 
 ## Usage
 
 ``` kotlin
-@RequiresPresenter(value = [ExamplePresenter1::class, ExamplePresenter2::class])
-class MultiPresenterActivity : MvpAppCompatActivity(), ExampleView1, ExampleView2 {
+@RequiresPresenter(value = [ExamplePresenter1::class, ExamplePresenter2::class, ExamplePresenter3::class])
+class MultiPresenterActivity : MvpAppCompatActivity(), ExampleView1, ExampleView2, ExampleView3 {
     
     @BindPresenter
-    private var presenter1: ExamplePresenter1? = null
-    @BindPresenter
     private var presenter2: ExamplePresenter2? = null
+    @BindPresenter
+    private var presenter3: ExamplePresenter3? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multi_presenter)
 
-        presenter1?.log("presenter1 from @BindPresenter")
+        presenter?.log("presenter1 from getPresenter")
         presenter2?.log("presenter2 from @BindPresenter")
+        presenter3?.log("presenter3 from @BindPresenter")
     }
 }
 ```
