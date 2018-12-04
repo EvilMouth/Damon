@@ -52,24 +52,37 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         return (P) mPresenters.get(0);
     }
 
-    public void dispatchCreate(Object view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
+    /**
+     * 分发onCreate
+     *
+     * @param view                mvpView
+     * @param arguments           bundle
+     * @param originSavedState    保存状态
+     * @param presenterSavedState presenter保存状态
+     */
+    public void dispatchCreate(Object view, @Nullable Bundle arguments, @Nullable Bundle originSavedState, @Nullable Bundle presenterSavedState) {
         if (mPresenterFactory == null) {
             return;
         }
         Bundle presenterBundle = null;
-        if (savedState != null) {
-            presenterBundle = ParcelFn.unmarshall(ParcelFn.marshall(savedState));
+        if (presenterSavedState != null) {
+            presenterBundle = ParcelFn.unmarshall(ParcelFn.marshall(presenterSavedState));
         }
         createPresenter(presenterBundle);
         if (mPresenters != null && !mPresenters.isEmpty()) {
             mPresenterFactory.bindPresenter(mPresenters);
             for (MvpPresenter presenter : mPresenters) {
                 //noinspection unchecked
-                presenter.create(view, arguments, null != presenterBundle ? presenterBundle.getBundle(PRESENTER_KEY.concat(presenter.getClass().getSimpleName())) : null);
+                presenter.hostCreate(view, arguments, originSavedState);
             }
         }
     }
 
+    /**
+     * 创建Presenter
+     *
+     * @param presenterBundle presenter保存状态
+     */
     private void createPresenter(Bundle presenterBundle) {
         if (presenterBundle != null) {
             mPresenters = PresenterStorage.INSTANCE.getPresenter(presenterBundle.getStringArray(PRESENTER_ID_KEYS));
@@ -78,26 +91,41 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         if (mPresenters == null) {
             mPresenters = mPresenterFactory.createPresenter();
             PresenterStorage.INSTANCE.add(mPresenters);
+            for (MvpPresenter presenter : mPresenters) {
+                // dispatch onCreate
+                presenter.create(null != presenterBundle ? presenterBundle.getBundle(PRESENTER_KEY.concat(presenter.getClass().getSimpleName())) : null);
+            }
         }
     }
 
+    /**
+     * 分发onCreateView
+     */
     public void dispatchCreateView() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
-                presenter.createView();
+                presenter.hostCreateView();
             }
         }
     }
 
+    /**
+     * 分发onStart
+     */
     public void dispatchStart() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
-                presenter.start();
+                presenter.hostStart();
             }
         }
     }
 
-    public Bundle dispatchSaveInstanceState() {
+    /**
+     * 保存presenter状态
+     *
+     * @return bundle
+     */
+    public Bundle getPresenterSaveState() {
         Bundle bundle = new Bundle();
         if (mPresenters != null && !mPresenters.isEmpty()) {
             String[] ids = new String[mPresenters.size()];
@@ -113,49 +141,70 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         return bundle;
     }
 
+    /**
+     * 分发onResume
+     */
     public void dispatchResume() {
         if (mPresenters != null && !mPresenters.isEmpty() && !mPresenterHasView) {
             for (MvpPresenter presenter : mPresenters) {
-                presenter.resume();
+                presenter.hostResume();
             }
             mPresenterHasView = true;
         }
     }
 
+    /**
+     * 分发onPause
+     */
     public void dispatchPause() {
         if (mPresenters != null && !mPresenters.isEmpty() && mPresenterHasView) {
             for (MvpPresenter presenter : mPresenters) {
-                presenter.pause();
+                presenter.hostPause();
             }
             mPresenterHasView = false;
         }
     }
 
+    /**
+     * 分发onStop
+     */
     public void dispatchStop() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
-                presenter.stop();
+                presenter.hostStop();
             }
         }
     }
 
+    /**
+     * 分发onDestroyView
+     */
     public void dispatchDestroyView() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
-                presenter.destroyView();
+                presenter.hostDestroyView();
             }
         }
     }
 
+    /**
+     * 分发onDestroy
+     *
+     * @param isFinal 是否真正destroy
+     */
     public void dispatchDestroy(boolean isFinal) {
-        if (isFinal && mPresenters != null && !mPresenters.isEmpty()) {
+        if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
-                presenter.destroy();
+                presenter.hostDestroy();
+                if (isFinal) {
+                    presenter.destroy();
+                }
             }
-            PresenterStorage.INSTANCE.remove(mPresenters);
-            mPresenters.clear();
-            mPresenters = null;
-            mPresenterFactory = null;
+            if (isFinal) {
+                mPresenters.clear();
+                mPresenters = null;
+                mPresenterFactory = null;
+            }
         }
     }
 }

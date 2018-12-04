@@ -39,6 +39,8 @@ public class RxMvpAppCompatActivity<P extends RxMvpPresenter> extends MvpAppComp
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((Disposable) mDisposableDelegate).dispose();
+        if (!isChangingConfigurations()) {
+            ((Disposable) mDisposableDelegate).dispose();
+        }
     }
 }

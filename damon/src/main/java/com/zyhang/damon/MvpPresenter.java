@@ -1,7 +1,6 @@
 package com.zyhang.damon;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +9,10 @@ import android.view.ViewGroup;
 import com.zyhang.damon.support.MvpAppCompatActivity;
 import com.zyhang.damon.support.MvpSupportFragment;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * ProjectName:Damon
@@ -21,12 +23,15 @@ import androidx.annotation.Nullable;
  * Modify remark:
  */
 
+@SuppressWarnings("unused")
 public class MvpPresenter<V> {
 
+    @Nullable
     private V view;
+    private CopyOnWriteArrayList<OnDestroyListener> onDestroyListeners = new CopyOnWriteArrayList<>();
 
     /**
-     * may null when call this method before {@link #onCreate(Bundle, Bundle)} or after {@link #onDestroy()}
+     * may null when call this method before {@link #onHostCreate(Bundle, Bundle)} or after {@link #onHostDestroy()}
      *
      * @return view view
      */
@@ -37,34 +42,28 @@ public class MvpPresenter<V> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    void create(@Nullable Bundle savedState) {
+        onCreate(savedState);
+    }
+
+    void save(Bundle state) {
+        onSave(state);
+    }
+
+    void destroy() {
+        for (OnDestroyListener listener : onDestroyListeners) {
+            listener.onDestroy();
+        }
+        onDestroy();
+    }
+
     /**
-     * called when {@link Activity#onCreate(Bundle)},{@link Fragment#onCreate(Bundle)}
+     * called when presenter created
      *
-     * @param arguments  {@link Activity#getIntent()},{@link Intent#getExtras()},{@link Fragment#getArguments()}
      * @param savedState If the presenter is being re-instantiated after a process restart then this Bundle
      *                   contains the data it supplied in {@link #onSave}.
-     * @see MvpAppCompatActivity#onCreate(Bundle)
-     * @see MvpSupportFragment#onCreate(Bundle)
      */
-    protected void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedState) {
-    }
-
-    /**
-     * called when {@link Activity#onCreate(Bundle)},{@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
-     *
-     * @see MvpAppCompatActivity#onCreate(Bundle)
-     * @see MvpSupportFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)
-     */
-    protected void onCreateView() {
-    }
-
-    /**
-     * called when {@link Activity#onStart()},{@link Fragment#onStart()}
-     *
-     * @see MvpAppCompatActivity#onStart()
-     * @see MvpSupportFragment#onStart()
-     */
-    protected void onStart() {
+    protected void onCreate(@Nullable Bundle savedState) {
     }
 
     /**
@@ -78,12 +77,83 @@ public class MvpPresenter<V> {
     }
 
     /**
+     * called when presenter destroyed
+     */
+    protected void onDestroy() {
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void hostCreate(V view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
+        this.view = view;
+        onHostCreate(arguments, savedState);
+    }
+
+    void hostCreateView() {
+        onHostCreateView();
+    }
+
+    void hostStart() {
+        onHostStart();
+    }
+
+    void hostResume() {
+        onHostResume();
+    }
+
+    void hostPause() {
+        onHostPause();
+    }
+
+    void hostStop() {
+        onHostStop();
+    }
+
+    void hostDestroyView() {
+        onHostDestroyView();
+    }
+
+    void hostDestroy() {
+        onHostDestroy();
+        this.view = null;
+    }
+
+    /**
+     * called when {@link Activity#onCreate(Bundle)},{@link Fragment#onCreate(Bundle)}
+     *
+     * @param arguments  {@link Activity#getIntent()},{@link Intent#getExtras()},{@link Fragment#getArguments()}
+     * @param savedState {@link Activity#onSaveInstanceState(Bundle)},{@link Fragment#onSaveInstanceState(Bundle)}
+     * @see MvpAppCompatActivity#onCreate(Bundle)
+     * @see MvpSupportFragment#onCreate(Bundle)
+     */
+    protected void onHostCreate(@Nullable Bundle arguments, @Nullable Bundle savedState) {
+    }
+
+    /**
+     * called when {@link Activity#onCreate(Bundle)},{@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     *
+     * @see MvpAppCompatActivity#onCreate(Bundle)
+     * @see MvpSupportFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)
+     */
+    protected void onHostCreateView() {
+    }
+
+    /**
+     * called when {@link Activity#onStart()},{@link Fragment#onStart()}
+     *
+     * @see MvpAppCompatActivity#onStart()
+     * @see MvpSupportFragment#onStart()
+     */
+    protected void onHostStart() {
+    }
+
+    /**
      * called when {@link Activity#onResume()},{@link Fragment#onResume()}
      *
      * @see MvpAppCompatActivity#onResume()
      * @see MvpSupportFragment#onResume()
      */
-    protected void onResume() {
+    protected void onHostResume() {
     }
 
     /**
@@ -92,7 +162,7 @@ public class MvpPresenter<V> {
      * @see MvpAppCompatActivity#onPause()
      * @see MvpSupportFragment#onPause()
      */
-    protected void onPause() {
+    protected void onHostPause() {
     }
 
     /**
@@ -101,7 +171,7 @@ public class MvpPresenter<V> {
      * @see MvpAppCompatActivity#onStop()
      * @see MvpSupportFragment#onStop()
      */
-    protected void onStop() {
+    protected void onHostStop() {
     }
 
     /**
@@ -110,7 +180,7 @@ public class MvpPresenter<V> {
      * @see MvpAppCompatActivity#onDestroy()
      * @see MvpSupportFragment#onDestroyView()
      */
-    protected void onDestroyView() {
+    protected void onHostDestroyView() {
     }
 
     /**
@@ -119,46 +189,36 @@ public class MvpPresenter<V> {
      * @see MvpAppCompatActivity#onDestroy()
      * @see MvpSupportFragment#onDestroy()
      */
-    protected void onDestroy() {
+    protected void onHostDestroy() {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void create(V view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
-        this.view = view;
-        onCreate(arguments, savedState);
+    /**
+     * A callback to be invoked when a presenter is about to be destroyed.
+     */
+    public interface OnDestroyListener {
+        /**
+         * Called before {@link MvpPresenter#onDestroy()}.
+         */
+        void onDestroy();
     }
 
-    void createView() {
-        onCreateView();
+    /**
+     * Adds a listener observing {@link #onDestroy}.
+     *
+     * @param listener a listener to add.
+     */
+    public void addOnDestroyListener(OnDestroyListener listener) {
+        onDestroyListeners.add(listener);
     }
 
-    void start() {
-        onStart();
-    }
-
-    void save(Bundle state) {
-        onSave(state);
-    }
-
-    void resume() {
-        onResume();
-    }
-
-    void pause() {
-        onPause();
-    }
-
-    void stop() {
-        onStop();
-    }
-
-    void destroyView() {
-        onDestroyView();
-    }
-
-    void destroy() {
-        onDestroy();
-        this.view = null;
+    /**
+     * Removed a listener observing {@link #onDestroy}.
+     *
+     * @param listener a listener to remove.
+     */
+    public void removeOnDestroyListener(OnDestroyListener listener) {
+        onDestroyListeners.remove(listener);
     }
 }

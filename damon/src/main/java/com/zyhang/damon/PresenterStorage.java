@@ -19,20 +19,15 @@ import androidx.collection.ArrayMap;
 enum PresenterStorage {
     INSTANCE;
 
-    private ArrayMap<String, MvpPresenter> mIdToPresenter = new ArrayMap<>();
-    private ArrayMap<MvpPresenter, String> mPresenterToId = new ArrayMap<>();
+    private ArrayMap<String, MvpPresenter> idToPresenter = new ArrayMap<>();
+    private ArrayMap<MvpPresenter, String> presenterToId = new ArrayMap<>();
 
     void add(List<? extends MvpPresenter> presenters) {
         for (MvpPresenter presenter : presenters) {
             String id = presenter.getClass().getSimpleName() + "/" + System.nanoTime() + "/" + (int) (Math.random() * Integer.MAX_VALUE);
-            mIdToPresenter.put(id, presenter);
-            mPresenterToId.put(presenter, id);
-        }
-    }
-
-    void remove(List<? extends MvpPresenter> presenters) {
-        for (MvpPresenter presenter : presenters) {
-            mIdToPresenter.remove(mPresenterToId.remove(presenter));
+            idToPresenter.put(id, presenter);
+            presenterToId.put(presenter, id);
+            presenter.addOnDestroyListener(() -> idToPresenter.remove(presenterToId.remove(presenter)));
         }
     }
 
@@ -44,7 +39,7 @@ enum PresenterStorage {
         List<MvpPresenter> presenters = null;
         for (String id : ids) {
             //noinspection unchecked
-            MvpPresenter presenter = mIdToPresenter.get(id);
+            MvpPresenter presenter = idToPresenter.get(id);
             if (presenter != null) {
                 if (null == presenters) {
                     presenters = new ArrayList<>();
@@ -57,6 +52,6 @@ enum PresenterStorage {
 
     @Nullable
     String getId(MvpPresenter presenter) {
-        return mPresenterToId.get(presenter);
+        return presenterToId.get(presenter);
     }
 }

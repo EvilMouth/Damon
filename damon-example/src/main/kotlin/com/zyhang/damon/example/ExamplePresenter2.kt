@@ -1,6 +1,7 @@
 package com.zyhang.damon.example
 
 import android.os.Bundle
+import android.util.Log
 import com.zyhang.damon.rxjava.RxMvpPresenter
 
 /**
@@ -14,19 +15,34 @@ import com.zyhang.damon.rxjava.RxMvpPresenter
 
 class ExamplePresenter2 : RxMvpPresenter<ExampleView2>() {
 
-    override fun onCreate(arguments: Bundle?, savedState: Bundle?) {
-        super.onCreate(arguments, savedState)
-        view?.log("ExamplePresenter2.onCreate")
+    override fun onCreate(savedState: Bundle?) {
+        super.onCreate(savedState)
+        Log.i("ExamplePresenter2", "onCreate $savedState")
     }
 
-    override fun onResume() {
-        super.onResume()
-        view?.log("ExamplePresenter2.onResume")
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("ExamplePresenter2", "onDestroy")
     }
 
-    override fun onPause() {
-        super.onPause()
-        view?.log("ExamplePresenter2.onPause")
+    override fun onHostCreate(arguments: Bundle?, savedState: Bundle?) {
+        super.onHostCreate(arguments, savedState)
+        Log.i("ExamplePresenter2", "onHostCreate $savedState")
+    }
+
+    override fun onHostDestroy() {
+        super.onHostDestroy()
+        Log.i("ExamplePresenter2", "onHostDestroy")
+    }
+
+    override fun onHostResume() {
+        super.onHostResume()
+        view!!.log("ExamplePresenter2.onHostResume")
+    }
+
+    override fun onHostPause() {
+        super.onHostPause()
+        view!!.log("ExamplePresenter2.onHostPause")
     }
 
     fun logByView(msg: String) {

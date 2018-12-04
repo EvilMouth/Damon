@@ -1,6 +1,7 @@
 package com.zyhang.damon.example
 
 import android.os.Bundle
+import android.util.Log
 import com.zyhang.damon.rxjava.DisposeOn
 import com.zyhang.damon.rxjava.RxMvpPresenter
 import com.zyhang.damon.rxjava.kotlin.autoDispose
@@ -18,26 +19,41 @@ import java.util.concurrent.TimeUnit
 
 class ExamplePresenter1 : RxMvpPresenter<ExampleView1>() {
 
-    override fun onCreate(arguments: Bundle?, savedState: Bundle?) {
-        super.onCreate(arguments, savedState)
-        view?.log("ExamplePresenter1.onCreate")
+    override fun onCreate(savedState: Bundle?) {
+        super.onCreate(savedState)
+        Log.i("ExamplePresenter1", "onCreate $savedState")
     }
 
-    override fun onResume() {
-        super.onResume()
-        view?.log("ExamplePresenter1.onResume")
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("ExamplePresenter1", "onDestroy")
+    }
+
+    override fun onHostCreate(arguments: Bundle?, savedState: Bundle?) {
+        super.onHostCreate(arguments, savedState)
+        Log.i("ExamplePresenter1", "onHostCreate $savedState")
+    }
+
+    override fun onHostDestroy() {
+        super.onHostDestroy()
+        Log.i("ExamplePresenter1", "onHostDestroy")
+    }
+
+    override fun onHostResume() {
+        super.onHostResume()
+        view?.log("ExamplePresenter1.onHostResume")
 
         Observable.interval(1, TimeUnit.SECONDS)
                 .take(10)
                 .subscribe { aLong ->
-                    view?.log("ExamplePresenter1.aLong === $aLong")
+                    view!!.log("ExamplePresenter1.aLong === $aLong")
                 }
                 .autoDispose(this, DisposeOn.PAUSE)
     }
 
-    override fun onPause() {
-        super.onPause()
-        view?.log("ExamplePresenter1.onPause")
+    override fun onHostPause() {
+        super.onHostPause()
+        view!!.log("ExamplePresenter1.onHostPause")
     }
 
     fun logByView(msg: String) {

@@ -42,14 +42,14 @@ public class MvpAppCompatActivity<P extends MvpPresenter> extends AppCompatActiv
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenterDelegate.dispatchCreate(this, getIntent().getExtras(), null != savedInstanceState ? savedInstanceState.getBundle(PRESENTER_STATE_KEY) : null);
+        mPresenterDelegate.dispatchCreate(this, getIntent().getExtras(), savedInstanceState, null != savedInstanceState ? savedInstanceState.getBundle(PRESENTER_STATE_KEY) : null);
         mPresenterDelegate.dispatchCreateView();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.dispatchSaveInstanceState());
+        outState.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.getPresenterSaveState());
     }
 
     @Override
@@ -66,20 +66,20 @@ public class MvpAppCompatActivity<P extends MvpPresenter> extends AppCompatActiv
 
     @Override
     public void onPause() {
-        mPresenterDelegate.dispatchPause();
         super.onPause();
+        mPresenterDelegate.dispatchPause();
     }
 
     @Override
     public void onStop() {
-        mPresenterDelegate.dispatchStop();
         super.onStop();
+        mPresenterDelegate.dispatchStop();
     }
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         mPresenterDelegate.dispatchDestroyView();
         mPresenterDelegate.dispatchDestroy(!isChangingConfigurations());
-        super.onDestroy();
     }
 }

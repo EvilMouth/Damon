@@ -46,7 +46,7 @@ public class MvpSupportFragment<P extends MvpPresenter> extends Fragment impleme
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenterDelegate.dispatchCreate(this, getArguments(), null != savedInstanceState ? savedInstanceState.getBundle(PRESENTER_STATE_KEY) : null);
+        mPresenterDelegate.dispatchCreate(this, getArguments(), savedInstanceState, null != savedInstanceState ? savedInstanceState.getBundle(PRESENTER_STATE_KEY) : null);
     }
 
     @Nullable
@@ -59,7 +59,7 @@ public class MvpSupportFragment<P extends MvpPresenter> extends Fragment impleme
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.dispatchSaveInstanceState());
+        outState.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.getPresenterSaveState());
     }
 
     @Override
@@ -76,25 +76,25 @@ public class MvpSupportFragment<P extends MvpPresenter> extends Fragment impleme
 
     @Override
     public void onPause() {
-        mPresenterDelegate.dispatchPause();
         super.onPause();
+        mPresenterDelegate.dispatchPause();
     }
 
     @Override
     public void onStop() {
-        mPresenterDelegate.dispatchStop();
         super.onStop();
+        mPresenterDelegate.dispatchStop();
     }
 
     @Override
     public void onDestroyView() {
-        mPresenterDelegate.dispatchDestroyView();
         super.onDestroyView();
+        mPresenterDelegate.dispatchDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        mPresenterDelegate.dispatchDestroy(!requireActivity().isChangingConfigurations());
         super.onDestroy();
+        mPresenterDelegate.dispatchDestroy(!requireActivity().isChangingConfigurations());
     }
 }

@@ -27,13 +27,13 @@ public class RxMvpPresenter<V> extends MvpPresenter<V> implements DisposableHelp
 
     @CallSuper
     @Override
-    protected void onPause() {
+    protected void onHostPause() {
         mDisposableDelegate.clearPause();
     }
 
     @CallSuper
     @Override
-    protected void onDestroyView() {
+    protected void onHostDestroyView() {
         mDisposableDelegate.clearDestroyView();
     }
 
