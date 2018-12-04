@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zyhang.damon.MvpPresenter;
-import com.zyhang.damon.MvpView;
 import com.zyhang.damon.factory.PresenterGetter;
 import com.zyhang.damon.PresenterLifecycleDelegate;
 import com.zyhang.damon.factory.ReflectionPresenterFactory;
@@ -26,7 +25,7 @@ import androidx.fragment.app.Fragment;
  * Modify remark:
  */
 
-public class MvpSupportFragment<P extends MvpPresenter> extends Fragment implements PresenterGetter<P>, MvpView {
+public class MvpSupportFragment<P extends MvpPresenter> extends Fragment implements PresenterGetter<P> {
 
     private static final String PRESENTER_STATE_KEY = "presenter_state";
     private PresenterLifecycleDelegate<P> mPresenterDelegate =
@@ -47,55 +46,55 @@ public class MvpSupportFragment<P extends MvpPresenter> extends Fragment impleme
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenterDelegate.onCreate(this, getArguments(), null != savedInstanceState ? savedInstanceState.getBundle(PRESENTER_STATE_KEY) : null);
+        mPresenterDelegate.dispatchCreate(this, getArguments(), null != savedInstanceState ? savedInstanceState.getBundle(PRESENTER_STATE_KEY) : null);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mPresenterDelegate.onCreateView();
+        mPresenterDelegate.dispatchCreateView();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.onSaveInstanceState());
+        outState.putBundle(PRESENTER_STATE_KEY, mPresenterDelegate.dispatchSaveInstanceState());
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mPresenterDelegate.onStart();
+        mPresenterDelegate.dispatchStart();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenterDelegate.onResume();
+        mPresenterDelegate.dispatchResume();
     }
 
     @Override
     public void onPause() {
-        mPresenterDelegate.onPause();
+        mPresenterDelegate.dispatchPause();
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        mPresenterDelegate.onStop();
+        mPresenterDelegate.dispatchStop();
         super.onStop();
     }
 
     @Override
     public void onDestroyView() {
-        mPresenterDelegate.onDestroyView();
+        mPresenterDelegate.dispatchDestroyView();
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        mPresenterDelegate.onDestroy(!requireActivity().isChangingConfigurations());
+        mPresenterDelegate.dispatchDestroy(!requireActivity().isChangingConfigurations());
         super.onDestroy();
     }
 }

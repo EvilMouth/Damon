@@ -52,7 +52,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         return (P) mPresenters.get(0);
     }
 
-    public void onCreate(MvpView view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
+    public void dispatchCreate(Object view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
         if (mPresenterFactory == null) {
             return;
         }
@@ -81,7 +81,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         }
     }
 
-    public void onCreateView() {
+    public void dispatchCreateView() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.createView();
@@ -89,7 +89,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         }
     }
 
-    public void onStart() {
+    public void dispatchStart() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.start();
@@ -97,7 +97,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         }
     }
 
-    public Bundle onSaveInstanceState() {
+    public Bundle dispatchSaveInstanceState() {
         Bundle bundle = new Bundle();
         if (mPresenters != null && !mPresenters.isEmpty()) {
             String[] ids = new String[mPresenters.size()];
@@ -113,7 +113,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         return bundle;
     }
 
-    public void onResume() {
+    public void dispatchResume() {
         if (mPresenters != null && !mPresenters.isEmpty() && !mPresenterHasView) {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.resume();
@@ -122,7 +122,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         }
     }
 
-    public void onPause() {
+    public void dispatchPause() {
         if (mPresenters != null && !mPresenters.isEmpty() && mPresenterHasView) {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.pause();
@@ -131,7 +131,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         }
     }
 
-    public void onStop() {
+    public void dispatchStop() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.stop();
@@ -139,7 +139,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         }
     }
 
-    public void onDestroyView() {
+    public void dispatchDestroyView() {
         if (mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.destroyView();
@@ -147,7 +147,7 @@ public class PresenterLifecycleDelegate<P extends MvpPresenter> implements Prese
         }
     }
 
-    public void onDestroy(boolean isFinal) {
+    public void dispatchDestroy(boolean isFinal) {
         if (isFinal && mPresenters != null && !mPresenters.isEmpty()) {
             for (MvpPresenter presenter : mPresenters) {
                 presenter.destroy();

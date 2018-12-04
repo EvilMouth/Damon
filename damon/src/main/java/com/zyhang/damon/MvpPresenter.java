@@ -1,6 +1,7 @@
 package com.zyhang.damon;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import com.zyhang.damon.support.MvpAppCompatActivity;
 import com.zyhang.damon.support.MvpSupportFragment;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 /**
  * ProjectName:Damon
@@ -21,18 +21,18 @@ import androidx.fragment.app.Fragment;
  * Modify remark:
  */
 
-public class MvpPresenter<View extends MvpView> {
+public class MvpPresenter<V> {
 
-    private View mView;
+    private V view;
 
     /**
      * may null when call this method before {@link #onCreate(Bundle, Bundle)} or after {@link #onDestroy()}
      *
-     * @return mView
+     * @return view view
      */
     @Nullable
-    public View getView() {
-        return mView;
+    public V getView() {
+        return view;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,8 +124,8 @@ public class MvpPresenter<View extends MvpView> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void create(View view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
-        mView = view;
+    void create(V view, @Nullable Bundle arguments, @Nullable Bundle savedState) {
+        this.view = view;
         onCreate(arguments, savedState);
     }
 
@@ -159,6 +159,6 @@ public class MvpPresenter<View extends MvpView> {
 
     void destroy() {
         onDestroy();
-        mView = null;
+        this.view = null;
     }
 }

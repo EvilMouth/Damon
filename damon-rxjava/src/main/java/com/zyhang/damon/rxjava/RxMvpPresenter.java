@@ -1,7 +1,6 @@
 package com.zyhang.damon.rxjava;
 
 import com.zyhang.damon.MvpPresenter;
-import com.zyhang.damon.MvpView;
 
 import androidx.annotation.CallSuper;
 import io.reactivex.disposables.Disposable;
@@ -10,7 +9,7 @@ import io.reactivex.disposables.Disposable;
  * Created by zyhang on 2018/5/15.16:46
  */
 
-public class RxMvpPresenter<View extends MvpView> extends MvpPresenter<View> implements DisposableHelper {
+public class RxMvpPresenter<V> extends MvpPresenter<V> implements DisposableHelper {
 
     private DisposableDelegate mDisposableDelegate = new DisposableDelegateFactory();
 

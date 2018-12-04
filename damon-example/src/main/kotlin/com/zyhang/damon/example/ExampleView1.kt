@@ -1,7 +1,5 @@
 package com.zyhang.damon.example
 
-import com.zyhang.damon.MvpView
-
 /**
  * ProjectName:Damon
  * Description:
@@ -11,6 +9,6 @@ import com.zyhang.damon.MvpView
  * Modify remark:
  */
 
-interface ExampleView1 : MvpView {
+interface ExampleView1 {
     fun log(msg: String)
 }
