@@ -3,7 +3,7 @@ package com.zyhang.damon.support;
 import android.os.Bundle;
 
 import com.zyhang.damon.MvpPresenter;
-import com.zyhang.damon.factory.PresenterGetter;
+import com.zyhang.damon.function.PresenterSupplier;
 import com.zyhang.damon.PresenterLifecycleDelegate;
 import com.zyhang.damon.factory.ReflectionPresenterFactory;
 
@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * Modify remark:
  */
 
-public class MvpAppCompatActivity<P extends MvpPresenter> extends AppCompatActivity implements PresenterGetter<P> {
+public class MvpAppCompatActivity<P extends MvpPresenter> extends AppCompatActivity implements PresenterSupplier<P> {
 
     private static final String PRESENTER_STATE_KEY = "presenter_state";
     private PresenterLifecycleDelegate<P> mPresenterDelegate =

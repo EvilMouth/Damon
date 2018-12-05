@@ -3,7 +3,7 @@ package com.zyhang.damon;
 import android.os.Bundle;
 
 import com.zyhang.damon.factory.PresenterFactory;
-import com.zyhang.damon.factory.PresenterGetter;
+import com.zyhang.damon.function.PresenterSupplier;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
  * Modify remark:
  */
 
-public class PresenterLifecycleDelegate<P extends MvpPresenter> implements PresenterGetter<P> {
+public class PresenterLifecycleDelegate<P extends MvpPresenter> implements PresenterSupplier<P> {
 
     private static final String PRESENTER_KEY = "presenter - ";
     private static final String PRESENTER_ID_KEYS = "presenter_ids";

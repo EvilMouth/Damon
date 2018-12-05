@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zyhang.damon.MvpPresenter;
-import com.zyhang.damon.factory.PresenterGetter;
+import com.zyhang.damon.function.PresenterSupplier;
 import com.zyhang.damon.PresenterLifecycleDelegate;
 import com.zyhang.damon.factory.ReflectionPresenterFactory;
 
@@ -25,7 +25,7 @@ import androidx.fragment.app.Fragment;
  * Modify remark:
  */
 
-public class MvpSupportFragment<P extends MvpPresenter> extends Fragment implements PresenterGetter<P> {
+public class MvpSupportFragment<P extends MvpPresenter> extends Fragment implements PresenterSupplier<P> {
 
     private static final String PRESENTER_STATE_KEY = "presenter_state";
     private PresenterLifecycleDelegate<P> mPresenterDelegate =

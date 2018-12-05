@@ -1,4 +1,4 @@
-package com.zyhang.damon.factory;
+package com.zyhang.damon.function;
 
 import com.zyhang.damon.MvpPresenter;
 
@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 /**
  * Created by zyhang on 2018/11/30.16:24
  */
-public interface PresenterGetter<P extends MvpPresenter> {
+public interface PresenterSupplier<P extends MvpPresenter> {
     @Nullable
     List<? extends MvpPresenter> getPresenters();
 

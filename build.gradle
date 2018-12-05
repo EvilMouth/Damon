@@ -45,7 +45,7 @@ ext {
 
     appcompat = "androidx.appcompat:appcompat:1.0.2"
 
-    rxjava = 'io.reactivex.rxjava2:rxjava:2.1.13'
+    rxjava = 'io.reactivex.rxjava2:rxjava:2.2.3'
     rxandroid = 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
     kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
