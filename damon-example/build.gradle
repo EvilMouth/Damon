@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.zyhang.damon.example"
-        minSdkVersion rootProject.minSdkVersion
+        minSdkVersion 21
         versionCode 1
         versionName "1.0"
 

@@ -1,6 +1,8 @@
 # Damon
 [![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Download](https://api.bintray.com/packages/zyhang/maven/Damon/images/download.svg) ](https://bintray.com/zyhang/maven/Damon/_latestVersion)
+[![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)]()
+[![Author](https://img.shields.io/badge/Author-zyhang-red.svg?style=flat)](https://www.zyhang.com/)
 
 damon is an android [Model-View-Presenter](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter) framework
 
